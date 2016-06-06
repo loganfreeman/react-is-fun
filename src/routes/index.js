@@ -17,6 +17,8 @@ import login from './login';
 import register from './register';
 import content from './content';
 import error from './error';
+import algorithms from './algorithms';
+import games from './games';
 
 export default {
 
@@ -25,10 +27,12 @@ export default {
   children: [
     home,
     contact,
+    algorithms,
+    games,
     login,
     register,
     content,
-    error,
+    error
   ],
 
   async action({ next, render, context }) {
