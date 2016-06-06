@@ -7,10 +7,10 @@ export default {
   action() {
     let menus = [{
       text: 'Sudoku',
-      key: 'sudoku-game'
+      key: 'sudoku'
     }, {
       text: 'Tetris',
-      key: 'tetris-game'
+      key: 'tetris'
     }];
     return <Games title="Games" menus={menus}/>;
   },

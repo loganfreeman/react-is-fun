@@ -11,8 +11,6 @@ class Games extends Component {
   };
 
   static propTypes = {
-    path: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
     title: PropTypes.string,
     menus: React.PropTypes.array.isRequired,
   };
@@ -34,10 +32,28 @@ class Games extends Component {
     })
   }
 
+  getGameComponent() {
+    if(!this.state.currentGame) {
+      return <h1>Please see a game to play!</h1>
+    }
+
+    switch(this.state.currentGame.key) {
+      case 'sudoku':
+        return <Sudoku />;
+      case 'tetris':
+        return <Tetris />;
+      default:
+        return <h1>This should not happen!</h1>
+    }
+  }
+
   render() {
     let menus = this.props.menus.map((menu) => {
       return <li className="menu-item" key={menu.key} onClick={this.menuItemClick.bind(this, menu)}>{menu.text}</li>
     })
+
+    let gameComponent = this.getGameComponent();
+
 
     return (
       <div className={s.root}>
@@ -47,8 +63,7 @@ class Games extends Component {
           </ul>
         </section>
         <div className={s.container}>
-          <div dangerouslySetInnerHTML={{ __html: this.props.content || '' }} />
-          <h1>{this.state.currentGame.text}</h1>
+          {gameComponent}
         </div>
       </div>
     );
