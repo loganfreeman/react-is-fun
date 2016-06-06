@@ -17,13 +17,26 @@ class Games extends Component {
     menus: React.PropTypes.array.isRequired,
   };
 
+  constructor() {
+    super();
+    this.state = {
+      currentGame: undefined
+    }
+  }
+
   componentWillMount() {
     this.context.setTitle(this.props.title);
   }
 
+  menuItemClick(menu) {
+    this.setState({
+      currentGame: menu
+    })
+  }
+
   render() {
     let menus = this.props.menus.map((menu) => {
-      return <li className="menu-item" key={menu.key}>{menu.text}</li>
+      return <li className="menu-item" key={menu.key} onClick={this.menuItemClick.bind(this, menu)}>{menu.text}</li>
     })
 
     return (
@@ -35,6 +48,7 @@ class Games extends Component {
         </section>
         <div className={s.container}>
           <div dangerouslySetInnerHTML={{ __html: this.props.content || '' }} />
+          <h1>{this.state.currentGame.text}</h1>
         </div>
       </div>
     );
