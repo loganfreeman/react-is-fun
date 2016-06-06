@@ -5,7 +5,14 @@ export default {
   path: '/games',
 
   action() {
-    return <Games />;
+    let menus = [{
+      text: 'Sudoku',
+      key: 'sudoku-game'
+    }, {
+      text: 'Tetris',
+      key: 'tetris-game'
+    }];
+    return <Games title="Games" menus={menus}/>;
   },
 
 };
