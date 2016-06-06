@@ -3,6 +3,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Games.css';
 import Sudoku from './Sudoku';
 import Tetris from './Tetris';
+import classNames from 'classnames/bind';
 
 class Games extends Component {
 
@@ -48,8 +49,17 @@ class Games extends Component {
   }
 
   render() {
+    let cx = classNames.bind(s);
+    let that = this;
     let menus = this.props.menus.map((menu) => {
-      return <li className="menu-item" key={menu.key} onClick={this.menuItemClick.bind(this, menu)}>{menu.text}</li>
+      let className = cx({
+        active: that.state.currentGame === menu
+      })
+      return (
+        <li className={className} key={menu.key} onClick={this.menuItemClick.bind(this, menu)}>
+          <a href="#">{menu.text}</a>
+        </li>
+      )
     })
 
     let gameComponent = this.getGameComponent();
@@ -57,11 +67,16 @@ class Games extends Component {
 
     return (
       <div className={s.root}>
-        <section className="sidebar">
-          <ul className="menu-list">
-          {menus}
-          </ul>
-        </section>
+        <div className="navbar-fixed">
+          <nav>
+            <div className="nav-wrapper">
+              <a href="#" className="brand-logo center">Games</a>
+              <ul className="left hide-on-med-and-down">
+                {menus}
+              </ul>
+            </div>
+          </nav>
+        </div>
         <div className={s.container}>
           {gameComponent}
         </div>
