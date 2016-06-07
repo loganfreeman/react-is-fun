@@ -53,7 +53,7 @@ class Games extends Component {
     let that = this;
     let menus = this.props.menus.map((menu) => {
       let className = cx({
-        active: that.state.currentGame === menu
+        active: that.state.currentGame && that.state.currentGame.key === menu.key
       })
       return (
         <li className={className} key={menu.key} onClick={this.menuItemClick.bind(this, menu)}>
