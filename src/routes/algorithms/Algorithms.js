@@ -1,20 +1,60 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Algorithms.css';
+import classNames from 'classnames/bind';
 
-const title = 'Algorithms';
+class Algorithms extends Component {
 
-function Algorithms(props, context) {
-  context.setTitle(title);
-  return (
-    <div className={s.root}>
-      <div className={s.container}>
-        <h1>{title}</h1>
+  static contextTypes = {
+    setTitle: PropTypes.func.isRequired,
+  };
+
+  static propTypes = {
+    title: PropTypes.string,
+    algorithms: React.PropTypes.object.isRequired,
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentAlgorithm: undefined,
+      categories: Object.keys(this.props.algorithms)
+    }
+    console.log(this.state);
+  }
+
+  componentWillMount() {
+    this.context.setTitle(this.props.title);
+  }
+
+  menuItemClick(menu) {
+    this.setState({
+      currentAlgorithm: menu
+    })
+  }
+
+  render() {
+    let cx = classNames.bind(s);
+
+    return (
+      <div className="container">
+        <div className="navbar-fixed">
+          <nav>
+            <div className="nav-wrapper">
+              <a href="#" className="brand-logo center">Algorithms</a>
+              <ul className="left hide-on-med-and-down">
+
+              </ul>
+            </div>
+          </nav>
+        </div>
+        <div className="container">
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+
 }
 
-Algorithms.contextTypes = { setTitle: PropTypes.func.isRequired };
 
 export default withStyles(s)(Algorithms);

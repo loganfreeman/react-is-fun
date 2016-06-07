@@ -35,7 +35,7 @@ class Games extends Component {
 
   getGameComponent() {
     if(!this.state.currentGame) {
-      return <h1>Please see a game to play!</h1>
+      return <h1>Please choose a game to play!</h1>
     }
 
     switch(this.state.currentGame.key) {
