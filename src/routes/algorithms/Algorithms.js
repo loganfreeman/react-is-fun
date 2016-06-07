@@ -10,8 +10,19 @@ class Dropdown extends Component {
   };
 
   render() {
+    let list = this.props.algorithms.map((algorithm, i) => {
+      return (
+        <li key={i}><a href="#!">{algorithm.text}</a></li>
+      );
+    });
+    let triggerName = this.props.title + "-trigger";
     return (
-      <a class="dropdown-button" href="#!">{this.props.title}<i className="material-icons right">arrow_drop_down</i></a>
+      <div>
+        <a className="dropdown-button" href="#!" data-activates={triggerName}>{this.props.title}<i className="material-icons right">arrow_drop_down</i></a>
+        <ul id={triggerName} className="dropdown-content">
+          {list}
+        </ul>
+      </div>
     );
   }
 }
