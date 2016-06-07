@@ -68,7 +68,6 @@ class Algorithms extends Component {
         <div className="navbar-fixed">
           <nav>
             <div className="nav-wrapper">
-              <a href="#" className="brand-logo center">Algorithms</a>
               <ul className="left hide-on-med-and-down">
                 {algorithms}
               </ul>
