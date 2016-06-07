@@ -17,7 +17,6 @@ class Algorithms extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentAlgorithm: undefined,
       categories: Object.keys(this.props.algorithms)
     }
     console.log(this.state);
@@ -27,14 +26,30 @@ class Algorithms extends Component {
     this.context.setTitle(this.props.title);
   }
 
-  menuItemClick(menu) {
+  categoryClick(category) {
     this.setState({
-      currentAlgorithm: menu
+      currentCategory: category
     })
+  }
+
+  upperCaseFirst(value) {
+    return value.charAt(0).toUpperCase() + value.slice(1)
   }
 
   render() {
     let cx = classNames.bind(s);
+
+    let algorithms = this.state.categories.map((category) => {
+      let className = cx({
+        active: this.state.currentCategory === category
+      });
+      let display = this.upperCaseFirst(category);
+      return (
+        <li className={className} key={category} onClick={this.categoryClick.bind(this, category)}>
+          <a href="#">{display}</a>
+        </li>
+      )
+    })
 
     return (
       <div className="container">
@@ -43,7 +58,7 @@ class Algorithms extends Component {
             <div className="nav-wrapper">
               <a href="#" className="brand-logo center">Algorithms</a>
               <ul className="left hide-on-med-and-down">
-
+                {algorithms}
               </ul>
             </div>
           </nav>
