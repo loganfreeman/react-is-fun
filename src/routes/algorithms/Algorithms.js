@@ -44,9 +44,21 @@ class Algorithms extends Component {
         active: this.state.currentCategory === category
       });
       let display = this.upperCaseFirst(category);
+
+      let dropdown = this.props.algorithms[category].map((algorithm) => {
+        return (
+          <li key={algorithm.label}><a href="#!">{algorithm.text}</a></li>
+        )
+      });
+
+      let dropdownTrigger = category + '-dropdown';
+
       return (
         <li className={className} key={category} onClick={this.categoryClick.bind(this, category)}>
-          <a href="#">{display}</a>
+          <ul id={dropdownTrigger} className="dropdown-content" key={dropdownTrigger}>
+            {dropdown}
+          </ul>
+          <a className="dropdown-button" href="#!" data-activates={dropdownTrigger}>{display}<i className="material-icons right">arrow_drop_down</i></a>
         </li>
       )
     })
