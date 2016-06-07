@@ -3,6 +3,19 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Algorithms.css';
 import classNames from 'classnames/bind';
 
+class Dropdown extends Component {
+  static propTypes = {
+    title: PropTypes.string,
+    algorithms: React.PropTypes.array.isRequired,
+  };
+
+  render() {
+    return (
+      <a class="dropdown-button" href="#!">{this.props.title}<i className="material-icons right">arrow_drop_down</i></a>
+    );
+  }
+}
+
 class Algorithms extends Component {
 
   static contextTypes = {
@@ -43,22 +56,12 @@ class Algorithms extends Component {
       let className = cx({
         active: this.state.currentCategory === category
       });
-      let display = this.upperCaseFirst(category);
 
-      let dropdown = this.props.algorithms[category].map((algorithm) => {
-        return (
-          <li key={algorithm.label}><a href="#!">{algorithm.text}</a></li>
-        )
-      });
-
-      let dropdownTrigger = category + '-dropdown';
+      let algorithms = this.props.algorithms[category];
 
       return (
         <li className={className} key={category} onClick={this.categoryClick.bind(this, category)}>
-          <ul id={dropdownTrigger} className="dropdown-content" key={dropdownTrigger}>
-            {dropdown}
-          </ul>
-          <a className="dropdown-button" href="#!" data-activates={dropdownTrigger}>{display}<i className="material-icons right">arrow_drop_down</i></a>
+          <Dropdown title={this.upperCaseFirst(category)} algorithms={algorithms} />
         </li>
       )
     })
