@@ -7,12 +7,13 @@ class Dropdown extends Component {
   static propTypes = {
     title: PropTypes.string,
     algorithms: React.PropTypes.array.isRequired,
+    itemClick: React.PropTypes.func
   };
 
   render() {
     let list = this.props.algorithms.map((algorithm, i) => {
       return (
-        <li key={i}><a href="#!">{algorithm.text}</a></li>
+        <li key={i} onClick={() => this.props.itemClick(algorithm)}><a href="#!">{algorithm.text}</a></li>
       );
     });
     let triggerName = this.props.title + "-trigger";
@@ -56,6 +57,13 @@ class Algorithms extends Component {
     })
   }
 
+  itemClick(item) {
+    console.log(item);
+    this.setState({
+      currentAlgorithm: item
+    })
+  }
+
   upperCaseFirst(value) {
     return value.charAt(0).toUpperCase() + value.slice(1)
   }
@@ -72,7 +80,7 @@ class Algorithms extends Component {
 
       return (
         <li className={className} key={category} onClick={this.categoryClick.bind(this, category)}>
-          <Dropdown title={this.upperCaseFirst(category)} algorithms={algorithms} />
+          <Dropdown title={this.upperCaseFirst(category)} algorithms={algorithms} itemClick={this.itemClick.bind(this)}/>
         </li>
       )
     })
