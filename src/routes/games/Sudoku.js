@@ -2,6 +2,63 @@ import React, { Component, PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Sudoku.css';
 
+class Tile extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    }
+  }
+
+  render() {
+    return (
+      <div className={s.tile}>
+      </div>
+    )
+  }
+}
+
+class Row extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    }
+  }
+
+  render() {
+    let tiles = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => {
+      return <Tile key={i} />
+    })
+    return (
+      <div className={s.row}>
+        {tiles}
+      </div>
+    )
+  }
+}
+
+class Board extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    }
+  }
+
+  render() {
+    let rows = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => {
+      return <Row key={i} />
+    })
+
+    return (
+      <div className={s.board}>
+        {rows}
+      </div>
+    )
+  }
+}
+
 class Sudoku extends Component {
 
   constructor() {
@@ -33,6 +90,7 @@ class Sudoku extends Component {
   render() {
     return (
       <div className="container">
+        <Board />
         <div className="row">
           <ul className={s.buttonList}>
             <li>
@@ -43,6 +101,7 @@ class Sudoku extends Component {
             <li><a className="waves-effect waves-light btn" onClick={this.solve.bind(this)}>solve</a></li>
           </ul>
         </div>
+
       </div>
     );
   }
