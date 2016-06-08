@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Sudoku.css';
+import * as Utils from './utils';
 
 class Tile extends Component {
   constructor(props) {
