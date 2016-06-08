@@ -4,11 +4,66 @@ import s from './Algorithms.css';
 import classNames from 'classnames/bind';
 
 class Dropdown extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
   static propTypes = {
     title: PropTypes.string,
     algorithms: React.PropTypes.array.isRequired,
     itemClick: React.PropTypes.func
   };
+
+  dropdownClick() {
+    this.setState({
+      isActive: !this.state.isActive
+    })
+  }
+
+  componentDidMount() {
+    this.enableOnClickOutside();
+  }
+
+  componentWillUnmount() {
+    this.disableOnClickOutside();
+  }
+
+  enableOnClickOutside() {
+    let events = ['mousedown', 'touchstart'];
+    let fn = this.outsideClickHandler.bind(this);
+    events.forEach((eventName) => document.addEventListener(eventName, fn));
+  }
+
+  disableOnClickOutside() {
+    let events = ['mousedown', 'touchstart'];
+    let fn = this.outsideClickHandler.bind(this);
+    events.forEach((eventName) => document.removeEventListener(eventName, fn));
+  }
+
+  outsideClickHandler(event) {
+    // function isDescendant(parent, child) {
+    //      var node = child.parentNode;
+    //      while (node != null) {
+    //          if (node == parent) {
+    //              return true;
+    //          }
+    //          node = node.parentNode;
+    //      }
+    //      return false;
+    // }
+    // if (!isDescendant(this.refs.dropdownContainer, event.target)) {
+    //   this.setState({
+    //     isActive: false
+    //   })
+    // }
+
+    // this is more concise
+    if (!this.refs.dropdownContainer.contains(event.target)) {
+      this.setState({
+        isActive: false
+      })
+    }
+  }
 
   render() {
     let list = this.props.algorithms.map((algorithm, i) => {
@@ -16,11 +71,33 @@ class Dropdown extends Component {
         <li key={i} onClick={() => this.props.itemClick(algorithm)}><a href="#!">{algorithm.text}</a></li>
       );
     });
-    let triggerName = this.props.title + "-trigger";
+    let btnClassName = classNames({
+      "dropdown-button": true,
+      "active": this.state.isActive
+    });
+
+    let dropdownContentClassName = classNames({
+      "dropdown-content": true,
+      "active": this.state.isActive
+    })
+
+    let dropdownContentStyle;
+
+    if (this.state.isActive) {
+      dropdownContentStyle = {
+        display: 'block' ,
+        opacity: 1
+      }
+    } else {
+      dropdownContentStyle = {
+        display: 'none',
+        opacity: 0,
+      }
+    }
     return (
-      <div>
-        <a className="dropdown-button" href="#!" data-activates={triggerName}>{this.props.title}<i className="material-icons right">arrow_drop_down</i></a>
-        <ul id={triggerName} className="dropdown-content">
+      <div ref='dropdownContainer'>
+        <a className={btnClassName} href="#!" onClick={this.dropdownClick.bind(this)}>{this.props.title}<i className="material-icons right">arrow_drop_down</i></a>
+        <ul className={dropdownContentClassName} style={dropdownContentStyle}>
           {list}
         </ul>
       </div>
