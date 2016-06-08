@@ -14,6 +14,10 @@ class Dropdown extends Component {
     itemClick: React.PropTypes.func
   };
 
+  static events = ['mousedown', 'touchstart'];
+
+  boundOutsideClickHandler = this.outsideClickHandler.bind(this);
+
   dropdownClick() {
     this.setState({
       isActive: !this.state.isActive
@@ -29,15 +33,12 @@ class Dropdown extends Component {
   }
 
   enableOnClickOutside() {
-    let events = ['mousedown', 'touchstart'];
-    let fn = this.outsideClickHandler.bind(this);
-    events.forEach((eventName) => document.addEventListener(eventName, fn));
+    Dropdown.events.forEach((eventName) => document.addEventListener(eventName, this.boundOutsideClickHandler));
   }
 
   disableOnClickOutside() {
-    let events = ['mousedown', 'touchstart'];
     let fn = this.outsideClickHandler.bind(this);
-    events.forEach((eventName) => document.removeEventListener(eventName, fn));
+    Dropdown.events.forEach((eventName) => document.removeEventListener(eventName, this.boundOutsideClickHandler));
   }
 
   outsideClickHandler(event) {
