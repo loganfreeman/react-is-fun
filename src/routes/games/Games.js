@@ -4,6 +4,7 @@ import s from './Games.css';
 import Sudoku from './Sudoku';
 import Tetris from './Tetris';
 import classNames from 'classnames/bind';
+import MineSweeper from './MineSweeper';
 
 class Games extends Component {
 
@@ -43,6 +44,8 @@ class Games extends Component {
         return <Sudoku />;
       case 'tetris':
         return <Tetris />;
+      case  'minesweeper':
+        return <MineSweeper />;
       default:
         return <h1>This should not happen!</h1>
     }

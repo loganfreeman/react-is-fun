@@ -11,6 +11,9 @@ export default {
     }, {
       text: 'Tetris',
       key: 'tetris'
+    }, {
+      text: 'MineSweeper',
+      key: 'minesweeper'
     }];
     return <Games title="Games" menus={menus}/>;
   },

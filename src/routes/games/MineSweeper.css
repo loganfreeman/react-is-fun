@@ -1,0 +1,102 @@
+.MineSweeper {
+  position: relative;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  padding: 45px 10px 10px;
+  margin: 0 auto; }
+  .MineSweeper.easy {
+    width: 310px; }
+  .MineSweeper.normal {
+    width: 490px; }
+  .MineSweeper.hard {
+    width: 900px; }
+  .MineSweeper__level {
+    text-align: center;
+    padding: 10px; }
+    .MineSweeper__level label {
+      margin: 0 10px; }
+    .MineSweeper__level input[type=radio] {
+      margin-right: 5px; }
+  .MineSweeper__flagNum {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background: url("./images/icn_flag_01.png") no-repeat left center;
+    padding-left: 25px; }
+  .MineSweeper__time {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    background: url("./images/icn_clock_01.png") no-repeat left center;
+    padding-left: 30px; }
+  .MineSweeper__face {
+    position: absolute;
+    top: 4px;
+    left: 50%;
+    margin-left: -17px;
+    width: 34px;
+    height: 34px;
+    border: 1px solid #bbb; }
+    .MineSweeper__face .button {
+      border-width: 1px;
+      border-style: solid;
+      border-color: #fff #999 #999 #fff;
+      height: 100%;
+      display: block; }
+    .MineSweeper__face .playing {
+      background: url("./images/icn_face_01.png") no-repeat center center, #ccc; }
+    .MineSweeper__face .clear {
+      background: url("./images/icn_face_02.png") no-repeat center center, #ccc; }
+    .MineSweeper__face .gameover {
+      background: url("./images/icn_face_03.png") no-repeat center center, #ccc; }
+
+.Table {
+  border: 1px solid #ccc;
+  margin: 0 auto; }
+
+.Cell {
+  border: 1px solid #bbb;
+  font-size: 20px;
+  width: 30px;
+  height: 28px;
+  text-align: center;
+  vertical-align: middle; }
+  .Cell__cover {
+    background-color: #ccc;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #fff #999 #999 #fff;
+    height: 100%; }
+    .Cell__cover--opened {
+      background-color: #ddd;
+      border: 1px solid #ddd; }
+  .Cell__number0 {
+    color: #ddd; }
+  .Cell__number1 {
+    color: blue; }
+  .Cell__number2 {
+    color: green; }
+  .Cell__number3 {
+    color: red; }
+  .Cell__number4 {
+    color: #2b4b65; }
+  .Cell__number5 {
+    color: #4f2702; }
+  .Cell__number6 {
+    color: #0b615e; }
+  .Cell__number7 {
+    color: black; }
+  .Cell__number8 {
+    color: #666; }
+  .Cell__flag {
+    background: url("./images/icn_flag_01.png") no-repeat center center;
+    text-indent: -9999px;
+    overflow: hidden;
+    display: block;
+    height: 100%; }
+  .Cell__bomb {
+    background: url("./images/icn_bomb_01.png") no-repeat center center;
+    text-indent: -9999px;
+    overflow: hidden;
+    display: block;
+    height: 100%; }
