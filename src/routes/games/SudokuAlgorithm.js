@@ -1,3 +1,6 @@
+import _ from 'underscore';
+import * as utils from './utils';
+
 export {
   makeSudoku,
   solvePuzzle,
@@ -19,11 +22,11 @@ function allowed(board, pos) {
   return listbits(bits);
 }
 
-function solvePuzzle(board: number[]) {
+function solvePuzzle(board) {
   return solveBoard(board).answer;
 }
 
-function solveBoard(original: number[]) {
+function solveBoard(original) {
   let board = [].concat(original);
   let guesses = deduce(board);
 
@@ -43,8 +46,8 @@ function solveBoard(original: number[]) {
 }
 
 // board: array of numbers, size of array 81, contains solved sudoku puzzle
-function makePuzzle(board: number[]) {
-  let puzzle: any[] = [];
+function makePuzzle(board) {
+  let puzzle = [];
   let deduced = makeArray(81, null);
   let order = _.range(81);
 
@@ -80,7 +83,7 @@ function makePuzzle(board: number[]) {
 }
 
 
-function boardforentries(entries: any[]) {
+function boardforentries(entries) {
   let board = _.map(_.range(81), function(val, key) {
     return null;
   });
@@ -96,7 +99,7 @@ function boardforentries(entries: any[]) {
   return board;
 }
 
-function boardMatches(b1: any[], b2: any[]) {
+function boardMatches(b1, b2) {
   for (let i = 0; i < 81; i++) {
     if (b1[i] !== b2[i]) {
       return false;
@@ -106,7 +109,7 @@ function boardMatches(b1: any[], b2: any[]) {
   return true;
 }
 
-function checkPuzzle(puzzle: any[], board: number[]) {
+function checkPuzzle(puzzle, board) {
   if (board === undefined) {
     board = null;
   }
@@ -130,7 +133,7 @@ function checkPuzzle(puzzle: any[], board: number[]) {
   return difficulty;
 }
 
-function solveNext(remembered: any[]) {
+function solveNext(remembered) {
   while (remembered.length > 0) {
     let tuple1 = remembered.pop();
 
@@ -170,10 +173,10 @@ function solveNext(remembered: any[]) {
   };
 }
 
-function deduce(board: number[]) {
+function deduce(board) {
   while (true) {
     let stuck = true;
-    let guess: any[] = null;
+    let guess = null;
     let count = 0;
 
     // fill in any spots determined by direct conflicts
@@ -218,7 +221,7 @@ function deduce(board: number[]) {
         for (let i = 0; i < numbers.length; i++) {
           let n = numbers[i];
           let bit = 1 << n;
-          let spots: any[] = [];
+          let spots = [];
 
           for (let y = 0; y < 9; y++) {
             let pos = posfor(x, y, axis);
@@ -233,9 +236,7 @@ function deduce(board: number[]) {
             board[spots[0]] = n;
             stuck = false;
           } else if (stuck) {
-            let t: {
-              pos: number;num: number
-            }[] = _.map(spots, function(val, key) {
+            let t = _.map(spots, function(val, key) {
               return {
                 pos: val,
                 num: n
@@ -262,7 +263,7 @@ function deduce(board: number[]) {
 
 
 //
-function pickbetter(b: any[], c: number, t: any[]) {
+function pickbetter(b, c, t) {
   if (b === null || t.length < b.length) {
     return {
       guess: t,
@@ -287,8 +288,8 @@ function pickbetter(b: any[], c: number, t: any[]) {
 }
 
 
-function figurebits(board: number[]) {
-  let needed: number[] = [];
+function figurebits(board) {
+  let needed = [];
   let allowed = _.map(board, function(val, key) {
     return val === null ? 511 : 0;
   }, []);
@@ -319,7 +320,7 @@ function figurebits(board: number[]) {
 
 // x: a particular number in an axis
 // check if a particular axis is missing numbers
-function axismissing(board: number[], x: number, axis: number) {
+function axismissing(board, x, axis) {
   let bits = 0;
   // for all 9 places
   for (let y = 0; y < 9; y++) {
@@ -334,7 +335,7 @@ function axismissing(board: number[], x: number, axis: number) {
 }
 
 // three axis
-function posfor(x: number, y: number, axis: number) {
+function posfor(x, y, axis) {
   if (axis === undefined) {
     axis = 0;
   }
@@ -352,8 +353,8 @@ function posfor(x: number, y: number, axis: number) {
 // for example, 24 is 11000 under base 2. it bits would be at [3, 4]. the rightmost bit index is 0.
 // maximum bit index is 9.
 // the maximum number in base 10 allowed is 511, which in base 2 is 111111111
-function listbits(bits: number) {
-  let list: number[] = [];
+function listbits(bits) {
+  let list = [];
   for (let y = 0; y < 9; y++) {
     if ((bits & (1 << y)) !== 0) {
       list.push(y);
@@ -363,7 +364,7 @@ function listbits(bits: number) {
   return list;
 }
 
-function axisfor(pos: number, axis: number) {
+function axisfor(pos, axis) {
   if (axis === 0) {
     return Math.floor(pos / 9);
   } else if (axis === 1) {
@@ -373,7 +374,7 @@ function axisfor(pos: number, axis: number) {
   return Math.floor(pos / 27) * 3 + Math.floor(pos / 3) % 3;
 }
 
-function pickBetter(b: any[], c: number, t: any[]) {
+function pickBetter(b, c, t) {
   if (b === null || t.length < b.length) {
     return {
       guess: t,
@@ -397,7 +398,7 @@ function pickBetter(b: any[], c: number, t: any[]) {
   };
 }
 
-function boardMatched(b1: number[], b2: number[]): boolean {
+function boardMatched(b1, b2) {
   for (let i = 0; i < 81; i++) {
     if (b1[i] !== b2[i]) {
       return false;
@@ -406,30 +407,8 @@ function boardMatched(b1: number[], b2: number[]): boolean {
   return true;
 }
 
-function randomInt(max: number) {
-  return Math.floor(Math.random() * (max + 1));
-}
-
-function shuffleArray(original: number[]) {
-  for (let i = 0; i < original.length; i++) {
-    let j = i;
-    while (j === i) {
-      j = Math.floor(Math.random() * original.length);
-    }
-    let contents = original[i];
-    original[i] = original[j];
-    original[j] = contents;
-  }
-}
-
-
-function removeElement(array: number[], from: number, to: number) {
+function removeElement(array, from, to) {
   let rest = array.slice((to || from) + 1 || array.length);
   array.length = from < 0 ? array.length + from : from;
   return array.push.apply(array, rest);
-}
-
-
-function makeArray(length: number, value: number) {
-  return _.map(_.range(length), (val, key) => value);
 }
