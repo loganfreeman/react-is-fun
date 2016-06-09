@@ -34,24 +34,25 @@ class Cell extends React.Component {
     }
     render() {
         let _this = this;
+        let cx = classNames.bind(s);
         let cell = () => {
             if(_this.state.isOpened){
                 if(_this.state.hasMine){
                     return (
-                        <div className={s.Cell__cover, s['Cell__cover--opened']}>
+                        <div className={cx(s.Cell__cover, s['Cell__cover--opened'])}>
                             <span className={s.Cell__bomb}>b</span>
                         </div>
                     );
                 } else {
                     return (
-                        <div className={s.Cell__cover, s['Cell__cover--opened']}>
+                        <div className={cx(s.Cell__cover, s['Cell__cover--opened'])}>
                             <span className={s['Cell__number'+_this.state.count]}>{_this.state.count}</span>
                         </div>
                     );
                 }
             } else if(_this.state.hasFlag){
                 return (
-                    <div className={s.Cell__cover, s['Cell__cover--opened']}>
+                    <div className={cx(s.Cell__cover, s['Cell__cover--opened'])}>
                         <span className={s.Cell__flag}>f</span>
                     </div>
                 );
@@ -284,7 +285,7 @@ class MineSweeper extends React.Component {
     }
     render() {
         let _this = this;
-        var cx = classNames.bind(s);
+        let cx = classNames.bind(s);
         return (
             <div>
                 <div className={s.MineSweeper}>
