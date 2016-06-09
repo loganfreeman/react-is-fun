@@ -5,6 +5,7 @@
   padding: 45px 10px 10px;
   margin: 0 auto;
 }
+
 .MineSweeper.easy {
   width: 310px;
 }
@@ -67,12 +68,22 @@
 .Table {
   border: 1px solid #ccc;
   margin: 0 auto;
+  font-size: inherit;
+  font: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
+
+.Table th, .Table td {
+  margin: 0;
+  padding: 0;
+}
+
 .Cell {
   border: 1px solid #bbb;
   font-size: 20px;
   width: 30px;
-  height: 28px;
+  height: 30px;
   text-align: center;
   vertical-align: middle;
 }
