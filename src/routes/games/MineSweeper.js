@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './MineSweeper.css';
 import * as Utils from './utils';
+import classNames from 'classnames/bind';
 
 
 class Cell extends React.Component {
@@ -283,13 +284,13 @@ class MineSweeper extends React.Component {
     }
     render() {
         let _this = this;
-
+        var cx = classNames.bind(s);
         return (
             <div>
                 <div className={s.MineSweeper}>
                     <span className={s.MineSweeper__flagNum}> {this.state.mineNum - this.state.flagNum}</span>
-                    <span className={s.MineSweeper__face} onClick={this.reset.bind(this)}>
-                        <span className={s.button, s[this.state.status]}></span>
+                    <span className={s['MineSweeper__face']} onClick={this.reset.bind(this)}>
+                        <span className={cx(s.button, s[this.state.status])}></span>
                     </span>
                     <span className={s.MineSweeper__time}> {this.state.time}</span>
                     <Table openNum={this.state.openNum} mineNum={this.state.mineNum} rowNum={this.state.rowNum} colNum={this.state.colNum} gameOver={this.gameOver.bind(this)} addOpenNum={this.addOpenNum.bind(this)} checkFlagNum={this.checkFlagNum.bind(this)}/>
