@@ -9,7 +9,7 @@ export {
 }
 
 function makeSudoku() {
-  return makePuzzle(solvePuzzle(makeArray(81, null)));
+  return makePuzzle(solvePuzzle(utils.makeArray(81, null)));
 }
 
 function allowed(board, pos) {
@@ -49,10 +49,10 @@ function solveBoard(original) {
 // board: array of numbers, size of array 81, contains solved sudoku puzzle
 function makePuzzle(board) {
   let puzzle = [];
-  let deduced = makeArray(81, null);
+  let deduced = utils.makeArray(81, null);
   let order = _.range(81);
 
-  shuffleArray(order);
+  utils.shuffleArray(order);
 
   for (let i = 0; i < order.length; i++) {
     let pos = order[i];
@@ -67,7 +67,7 @@ function makePuzzle(board) {
     }
   }
 
-  shuffleArray(puzzle);
+  utils.shuffleArray(puzzle);
 
   for (let i = puzzle.length - 1; i >= 0; i--) {
     let e = puzzle[i];
@@ -254,7 +254,7 @@ function deduce(board) {
 
     if (stuck === true) {
       if (guess !== null) {
-        shuffleArray(guess);
+        utils.shuffleArray(guess);
       }
 
       return guess;

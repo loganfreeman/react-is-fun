@@ -5,6 +5,10 @@ import {
 } from 'chai';
 
 describe('sudoku algorithm', () => {
+  it('should solve puzzle', () => {
+    let puzzle = utils.makeArray(81, null);
+    let answer = algorithm.solvePuzzle(puzzle);
+  })
   it('should get axis for pos', () => {
     let a, b, c;
     a = algorithm.axisfor(0, 0);
