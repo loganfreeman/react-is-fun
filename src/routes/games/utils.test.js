@@ -7,7 +7,6 @@ import _ from 'underscore';
 describe('utils', () => {
   it('should get random int', () => {
     let i = utils.getRandomInt(10, 100);
-    console.log(i)
     expect(i >= 10 && i <= 100).to.be.true;
   })
   it('should make array', () => {
@@ -45,5 +44,11 @@ describe('utils', () => {
     for(let i=6+1; i< 10; i++) {
       expect(b[i-4]).to.equal(a[i])
     }
+  })
+  it('should list bits', () => {
+    let a = utils.listbits(24);
+    expect(a).to.deep.equal([3, 4]);
+    a = utils.listbits(511);
+    expect(a).to.deep.equal([0, 1, 2, 3, 4, 5, 6, 7, 8])
   })
 })

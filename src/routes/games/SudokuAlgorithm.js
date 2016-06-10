@@ -4,7 +4,8 @@ import * as utils from './utils';
 export {
   makeSudoku,
   solvePuzzle,
-  makePuzzle
+  makePuzzle,
+  axisfor
 }
 
 function makeSudoku() {
@@ -19,7 +20,7 @@ function allowed(board, pos) {
     bits = bits & axismissing(board, x, axis);
   }
 
-  return listbits(bits);
+  return utils.listbits(bits);
 }
 
 function solvePuzzle(board) {
@@ -186,7 +187,7 @@ function deduce(board) {
 
     for (let pos = 0; pos < 81; pos++) {
       if (board[pos] === null) {
-        let numbers = listbits(allowed[pos]);
+        let numbers = utils.listbits(allowed[pos]);
         if (numbers.length === 0) {
           return [];
         } else if (numbers.length === 1) {
@@ -216,7 +217,7 @@ function deduce(board) {
     // fill in any spots determined by elimination of other locations
     for (let axis = 0; axis < 3; axis++) {
       for (let x = 0; x < 9; x++) {
-        let numbers = listbits(needed[axis * 9 + x]);
+        let numbers = utils.listbits(needed[axis * 9 + x]);
 
         for (let i = 0; i < numbers.length; i++) {
           let n = numbers[i];
@@ -274,7 +275,7 @@ function pickbetter(b, c, t) {
       guess: b,
       count: c
     };
-  } else if (randomInt(c) === 0) {
+  } else if (utils.randomInt(c) === 0) {
     return {
       guess: t,
       count: c + 1
@@ -349,21 +350,6 @@ function posfor(x, y, axis) {
   return ([0, 3, 6, 27, 30, 33, 54, 57, 60][x] + [0, 1, 2, 9, 10, 11, 18, 19, 20][y]);
 }
 
-// given a number, list its bits,
-// for example, 24 is 11000 under base 2. it bits would be at [3, 4]. the rightmost bit index is 0.
-// maximum bit index is 9.
-// the maximum number in base 10 allowed is 511, which in base 2 is 111111111
-function listbits(bits) {
-  let list = [];
-  for (let y = 0; y < 9; y++) {
-    if ((bits & (1 << y)) !== 0) {
-      list.push(y);
-    }
-  }
-
-  return list;
-}
-
 function axisfor(pos, axis) {
   if (axis === 0) {
     return Math.floor(pos / 9);
@@ -372,30 +358,6 @@ function axisfor(pos, axis) {
   }
 
   return Math.floor(pos / 27) * 3 + Math.floor(pos / 3) % 3;
-}
-
-function pickBetter(b, c, t) {
-  if (b === null || t.length < b.length) {
-    return {
-      guess: t,
-      count: 1
-    };
-  } else if (t.length > b.length) {
-    return {
-      guess: b,
-      count: c
-    };
-  } else if (randomInt(c) === 0) {
-    return {
-      guess: t,
-      count: c + 1
-    };
-  }
-
-  return {
-    guess: b,
-    count: c + 1
-  };
 }
 
 function boardMatched(b1, b2) {

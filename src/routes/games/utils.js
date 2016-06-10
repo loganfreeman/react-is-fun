@@ -1,9 +1,13 @@
 import {List,Map,fromJS} from 'immutable';
 import _ from 'underscore';
 
-export {getRandomInt, makeArray, shuffleArray, makeArray2, cloneArray, removeElement}
+export {getRandomInt, makeArray, shuffleArray, makeArray2, cloneArray, removeElement, randomInt, listbits}
 function getRandomInt(min, max) {
   return Math.floor( Math.random() * ( max + 1 - min ) ) + min;
+}
+
+function randomInt(max) {
+  return Math.floor(Math.random() * (max + 1));
 }
 
 
@@ -33,4 +37,19 @@ function removeElement(array, from, to) {
   let rest = array.slice((to || from) + 1 || array.length);
   array.length = from < 0 ? array.length + from : from;
   return array.push.apply(array, rest);
+}
+
+// given a number, list its bits,
+// for example, 24 is 11000 under base 2. it bits would be at [3, 4]. the rightmost bit index is 0.
+// maximum bit index is 9.
+// the maximum number in base 10 allowed is 511, which in base 2 is 111111111
+function listbits(bits) {
+  let list = [];
+  for (let y = 0; y < 9; y++) {
+    if ((bits & (1 << y)) !== 0) {
+      list.push(y);
+    }
+  }
+
+  return list;
 }
