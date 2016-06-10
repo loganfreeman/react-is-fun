@@ -9,6 +9,9 @@ describe('sudoku algorithm', () => {
     let puzzle = utils.makeArray(81, null);
     let answer = algorithm.solvePuzzle(puzzle);
   })
+  it('should make puzzle', () => {
+    let puzzle = algorithm.makeSudoku();
+  })
   it('should get axis for pos', () => {
     let a, b, c;
     a = algorithm.axisfor(0, 0);

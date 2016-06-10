@@ -5,7 +5,8 @@ export {
   makeSudoku,
   solvePuzzle,
   makePuzzle,
-  axisfor
+  axisfor,
+  allowed
 }
 
 function makeSudoku() {

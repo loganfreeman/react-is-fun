@@ -6,7 +6,9 @@ import {
 
 import * as algo from './SudokuAlgorithm';
 
-import * as Utils from './utils';
+import * as utils from './utils';
+
+export {initTiles, createGame, solve, getAllowed}
 
 function makeTiles(board) {
   return board.map((value, idx) => {
@@ -29,7 +31,7 @@ function createGame() {
     cols: 9,
     rows: 9,
     playingTime: 0,
-    tiles: initTiles(rows, cols)
+    tiles: initTiles()
   });
 }
 
@@ -40,33 +42,24 @@ function solve(game) {
     cols: 9,
     rows: 9,
     playingTime: 0,
-    tiles: makeTiles(solvePuzzle(board))
+    tiles: makeTiles(algo.solvePuzzle(board))
   });
 }
 
-function getAllowed(game: any, pos: number) {
-  var board: number[] = game.get('tiles').toArray().map((tile: any, idx: number) => tile.get('value'));
+function getAllowed(game, pos) {
+  var board: number[] = game.get('tiles').toArray().map((tile, idx) => tile.get('value'));
 
-  return allowed(board, pos);
+  return algo.allowed(board, pos);
 }
 
-function setTile(game: any, tile: any, value: any) {
+function setTile(game, tile, value) {
   const updated = !game.getIn(['tiles', tile]) ?
     game : game.setIn(['tiles', tile, 'value'], value);
   return updated;
 }
 
-function revealTile(game: any, tile: any) {
+function revealTile(game, tile) {
   const updated = !game.getIn(['tiles', tile]) ?
     game : game.setIn(['tiles', tile, 'isRevealed'], true);
   return updated;
-}
-
-function createGame(rows: number = 9, cols: number = 9) {
-  return fromJS({
-    cols: cols,
-    rows: rows,
-    playingTime: 0,
-    tiles: initTiles(rows, cols)
-  });
 }
