@@ -1,7 +1,7 @@
 import {List,Map,fromJS} from 'immutable';
 import _ from 'underscore';
 
-export {getRandomInt, makeArray, shuffleArray, makeArray2, cloneArray, removeElement, randomInt, listbits}
+export {getRandomInt, makeArray, shuffleArray, makeArray2, cloneArray, removeElement, randomInt, listbits, partition}
 function getRandomInt(min, max) {
   return Math.floor( Math.random() * ( max + 1 - min ) ) + min;
 }
@@ -10,6 +10,13 @@ function randomInt(max) {
   return Math.floor(Math.random() * (max + 1));
 }
 
+function partition(size, coll) {
+  var res = [];
+  for (var i = 0, l = coll.size || coll.length; i < l; i += size) {
+    res.push(coll.slice(i, i + size));
+  }
+  return fromJS(res);
+}
 
 function makeArray(length, value) {
   return _.map(_.range(length), (val, key) => value);

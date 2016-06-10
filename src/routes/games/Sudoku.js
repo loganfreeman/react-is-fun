@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Sudoku.css';
-import * as Utils from './utils';
+import * as utils from './utils';
+import * as game from './SudokuGame';
+import {List} from 'immutable';
 
 class Tile extends Component {
   constructor(props) {
@@ -62,15 +64,23 @@ class Board extends Component {
 
 class Sudoku extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      showJson: false
+      showJson: false,
+      history: List()
     }
   }
 
   startNewGame() {
-    console.log('new game')
+    let newGame = game.createGame();
+    let rows = utils.partition(newGame.get('cols'), newGame.get('tiles'));
+
+    this.setState({
+      game: newGame,
+      rows: rows,
+      history: this.state.history.push(newGame)
+    })
   }
 
   toggleJsonShow() {
@@ -80,12 +90,28 @@ class Sudoku extends Component {
     })
   }
 
+  updateGame(updateHistory = true) {
+
+  }
+
   undo() {
-    console.log('undo')
+    if (this.canUndo()) {
+
+    }
+  }
+
+  canUndo() {
+    return this.state.history.size > 1;
   }
 
   solve() {
-    console.log('solve puzzle')
+    let solved = game.solve(this.state.game);
+    let rows = utils.partition(solved.get('cols'), solved.get('tiles'))
+    this.setState({
+      game: solved,
+      rows: rows,
+      history: this.state.history.push(solved)
+    })
   }
 
   render() {
@@ -95,11 +121,11 @@ class Sudoku extends Component {
         <div className="row">
           <ul className={s.buttonList}>
             <li>
-              <a className="waves-effect waves-light btn" onClick={this.startNewGame.bind(this)}>New Game</a>
+              <button className="waves-effect waves-light btn" onClick={this.startNewGame.bind(this)}>New Game</button>
             </li>
-            <li><a className="waves-effect waves-light btn" onClick={this.toggleJsonShow.bind(this)}>Toggle JSON</a></li>
-            <li><a className="waves-effect waves-light btn" onClick={this.undo.bind(this)}>Undo</a></li>
-            <li><a className="waves-effect waves-light btn" onClick={this.solve.bind(this)}>solve</a></li>
+            <li><button className="waves-effect waves-light btn" onClick={this.toggleJsonShow.bind(this)}>Toggle JSON</button></li>
+            <li><button className="waves-effect waves-light btn" onClick={this.undo.bind(this)} disabled={!this.canUndo()}>Undo</button></li>
+            <li><button className="waves-effect waves-light btn" onClick={this.solve.bind(this)}>solve</button></li>
           </ul>
         </div>
 
