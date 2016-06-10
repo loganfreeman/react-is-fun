@@ -70,7 +70,7 @@ function makePuzzle(board) {
 
   for (let i = puzzle.length - 1; i >= 0; i--) {
     let e = puzzle[i];
-    removeElement(puzzle, i, null);
+    utils.removeElement(puzzle, i, null);
 
     let rating = checkPuzzle(boardforentries(puzzle), board);
     if (rating === -1) {
@@ -405,10 +405,4 @@ function boardMatched(b1, b2) {
     }
   }
   return true;
-}
-
-function removeElement(array, from, to) {
-  let rest = array.slice((to || from) + 1 || array.length);
-  array.length = from < 0 ? array.length + from : from;
-  return array.push.apply(array, rest);
 }

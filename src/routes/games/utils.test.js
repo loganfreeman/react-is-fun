@@ -33,4 +33,17 @@ describe('utils', () => {
     })
     expect(all).not.to.be.true
   })
+  it('should remove element from array', () => {
+    let a = utils.makeArray2(10, () => utils.getRandomInt(1, 100))
+    let b = utils.cloneArray(a)
+    utils.removeElement(b, 3, 6);
+    expect(b.length).to.equal(6);
+    for(let i =0; i< 3; i++) {
+      expect(b[i]).to.equal(a[i])
+    }
+
+    for(let i=6+1; i< 10; i++) {
+      expect(b[i-4]).to.equal(a[i])
+    }
+  })
 })

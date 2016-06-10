@@ -1,7 +1,7 @@
 import {List,Map,fromJS} from 'immutable';
 import _ from 'underscore';
 
-export {getRandomInt, makeArray, shuffleArray, makeArray2, cloneArray}
+export {getRandomInt, makeArray, shuffleArray, makeArray2, cloneArray, removeElement}
 function getRandomInt(min, max) {
   return Math.floor( Math.random() * ( max + 1 - min ) ) + min;
 }
@@ -28,4 +28,9 @@ function shuffleArray(original) {
     original[j] = contents;
   }
   return original;
+}
+function removeElement(array, from, to) {
+  let rest = array.slice((to || from) + 1 || array.length);
+  array.length = from < 0 ? array.length + from : from;
+  return array.push.apply(array, rest);
 }
