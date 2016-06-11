@@ -45,19 +45,14 @@ class Row extends Component {
   }
 
   static propTypes = {
-    row: React.PropTypes.object
-  }
-
-  getTile(i) {
-    if (this.props.row) {
-      return this.props.row[i]
-    }
+    row: React.PropTypes.object.isRequired
   }
 
   render() {
-    let tiles = _.range(9).map((i) => {
-      return <Tile key={i} tile={this.getTile(i)} />
-    })
+    let tiles = [], i = 0;
+    for(let tile of this.props.row) {
+      tiles.push(<Tile key={i++} tile={tile} />)
+    }
     return (
       <div className={s.row}>
         {tiles}
