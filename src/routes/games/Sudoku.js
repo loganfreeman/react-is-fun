@@ -24,9 +24,13 @@ class Tile extends Component {
     }
   }
 
+  handleClick(event) {
+    console.log(this.props.tile.toJS());
+  }
+
   render() {
     return (
-      <div className={s.tile}>
+      <div className={s.tile} onClick={this.handleClick.bind(this)}>
         <div className={s.lid} />
         <div>
           {this.getValue()}
@@ -144,7 +148,7 @@ class Sudoku extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="container" >
         <Board rows={this.state.rows} />
         <div className="row">
           <ul className={s.buttonList}>
