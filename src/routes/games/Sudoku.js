@@ -5,17 +5,32 @@ import * as utils from './utils';
 import * as game from './SudokuGame';
 import {List} from 'immutable';
 
+import _ from 'underscore';
+
 class Tile extends Component {
+  static propTypes = {
+    tile: React.PropTypes.object
+  }
   constructor(props) {
     super(props);
     this.state = {
+      isRevealed: false
+    }
+  }
 
+  getValue() {
+    if (this.props.tile) {
+      return this.props.tile.get('value')
     }
   }
 
   render() {
     return (
       <div className={s.tile}>
+        <div className={s.lid} />
+        <div>
+          {this.getValue()}
+        </div>
       </div>
     )
   }
@@ -29,9 +44,19 @@ class Row extends Component {
     }
   }
 
+  static propTypes = {
+    row: React.PropTypes.object
+  }
+
+  getTile(i) {
+    if (this.props.row) {
+      return this.props.row[i]
+    }
+  }
+
   render() {
-    let tiles = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => {
-      return <Tile key={i} />
+    let tiles = _.range(9).map((i) => {
+      return <Tile key={i} tile={this.getTile(i)} />
     })
     return (
       <div className={s.row}>
@@ -49,10 +74,18 @@ class Board extends Component {
     }
   }
 
+  static propTypes = {
+    rows: React.PropTypes.object
+  }
+
   render() {
-    let rows = [0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => {
-      return <Row key={i} />
-    })
+    let rows = [], i =0;
+    if (this.props.rows) {
+      for(let row of this.props.rows) {
+          rows.push(<Row row={row} key={i++}/>)
+      }
+    }
+
 
     return (
       <div className={s.board}>
@@ -117,7 +150,7 @@ class Sudoku extends Component {
   render() {
     return (
       <div className="container">
-        <Board />
+        <Board rows={this.state.rows} />
         <div className="row">
           <ul className={s.buttonList}>
             <li>
