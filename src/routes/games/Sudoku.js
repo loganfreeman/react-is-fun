@@ -14,6 +14,7 @@ import {
 } from 'immutable';
 
 import _ from 'underscore';
+import classNames from 'classnames/bind';
 
 class Tile extends Component {
   static propTypes = {
@@ -205,7 +206,16 @@ class Row extends Component {
         this.setState({open: false});
       };
 
+      handleDialogTileClick(value) {
+        console.log(value);
+        this.setState({
+          selectedCell: value
+        })
+      }
+
       render() {
+        let cx = classNames.bind(s);
+
         const actions = [
               <FlatButton
                 label="Cancel"
@@ -224,7 +234,9 @@ class Row extends Component {
           return _.range(3).map((i) => {
             let r = i * 3;
             let cells = [1, 2, 3].map((c) => {
-              return <div className={s.tile}>{c + r}</div>
+              let active = (c+r === this.state.selectedCell);
+              let className = cx(s.tile, { active: active});
+              return <div className={className} onClick={this.handleDialogTileClick.bind(this, c + r)} key={c}>{c + r}</div>
             })
             return (
                 <div key={i} className={s.row}>{cells}</div>
