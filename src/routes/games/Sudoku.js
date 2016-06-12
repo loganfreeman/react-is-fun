@@ -220,6 +220,21 @@ class Row extends Component {
               />,
             ];
 
+        const getDialogContent = () => {
+          return _.range(3).map((i) => {
+            let r = i * 3;
+            let cells = [1, 2, 3].map((c) => {
+              return <div className={s.tile}>{c + r}</div>
+            })
+            return (
+                <div key={i} className={s.row}>{cells}</div>
+            )
+
+          })
+        }
+
+        const dialogContent = getDialogContent();
+
         return ( <div className = "container"
           ref = {
             (c) => this.container = c
@@ -251,7 +266,9 @@ class Row extends Component {
                     modal={true}
                     open={this.state.open}
                   >
-                    Only actions can close this dialog.
+                    <div className={s.board}>
+                      {dialogContent}
+                    </div>
                   </Dialog>
           </div>
 

@@ -68,3 +68,11 @@ ul.buttonList li {
 .flexbox-container > div:first-child {
 	margin-right: 20px;
 }
+
+ /* tile over */
+ .tile:hover, .tile.active {
+   background-color:#F9EDBE;
+   cursor: hand;
+   cursor: pointer;
+   box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0);
+ }
