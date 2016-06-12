@@ -140,7 +140,10 @@ class Row extends Component {
       }
 
       handleTileClick(event) {
-        this.handleOpen();
+        let tile = event.detail;
+        if (!tile.get('value')){
+          this.handleOpen();
+        }
 
       }
 
@@ -203,7 +206,10 @@ class Row extends Component {
       };
 
       handleClose = () => {
-        this.setState({open: false});
+        this.setState({
+          open: false,
+          selectedCell: undefined
+        });
       };
 
       handleDialogTileClick(value) {
