@@ -8,7 +8,7 @@ import * as algo from './SudokuAlgorithm';
 
 import * as utils from './utils';
 
-export {initTiles, createGame, solve, getAllowed}
+export {initTiles, createGame, solve, getAllowed, setTile, revealTile}
 
 function makeTiles(board) {
   return board.map((value, idx) => {
