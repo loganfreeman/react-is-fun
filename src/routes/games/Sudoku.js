@@ -48,10 +48,7 @@ class Tile extends Component {
       ref = {
         (c) => this.element = c
       } >
-      < div className = {
-        s.lid
-      }
-      /> < div > {
+      < div > {
         this.getValue()
       } < /div> < /div>
     )
@@ -137,7 +134,8 @@ class Row extends Component {
       }
 
       handleTileClick(event) {
-        console.log(event.detail.toJS());
+        let g = game.revealTile(this.state.game, event.detail.get('id'));
+        this.updateGame(g);
       }
 
       boundTileClick = this.handleTileClick.bind(this);
@@ -152,25 +150,22 @@ class Row extends Component {
         document.removeEventListener('tileClick', this.boundTileClick)
       }
 
-      startNewGame() {
-        let newGame = game.createGame();
+      updateGame(newGame, updateHistory = true) {
         let rows = utils.partition(newGame.get('cols'), newGame.get('tiles'));
-
         this.setState({
           game: newGame,
           rows: rows,
-          history: this.state.history.push(newGame)
+          history: updateHistory ? this.state.history.push(newGame) : this.state.history,
+          json: JSON.stringify(newGame.get('tiles').toJS())
         })
       }
 
-      toggleJsonShow() {
-        console.log('toggle json show');
-        this.setState({
-          showJson: !this.state.showJson
-        })
+      startNewGame() {
+        let newGame = game.createGame();
+        this.updateGame(newGame);
       }
 
-      updateGame(updateHistory = true) {
+      revealTiles() {
 
       }
 
@@ -195,38 +190,36 @@ class Row extends Component {
       }
 
       render() {
-        return ( < div className = "container"
+        return ( <div className = "container"
           ref = {
             (c) => this.container = c
           } >
-          < Board rows = {
-            this.state.rows
-          }
-          /> < div className = "row" >
-          < ul className = {
+          <div className="row"><Board rows = {this.state.rows} /></div>
+          <div className = "row" >
+          <ul className = {
             s.buttonList
-          } >
-          < li >
-          < button className = "waves-effect waves-light btn"
+          }>
+          <li>
+          <button className = "waves-effect waves-light btn"
           onClick = {
             this.startNewGame.bind(this)
           } > New Game < /button> < /li> < li > < button className = "waves-effect waves-light btn"
           onClick = {
-            this.toggleJsonShow.bind(this)
-          } > Toggle JSON < /button></li >
+            this.revealTiles.bind(this)
+          } > Reveal tiles < /button></li >
           < li > < button className = "waves-effect waves-light btn"
           onClick = {
             this.undo.bind(this)
           }
           disabled = {!this.canUndo()
           } > Undo < /button></li >
-          < li > < button className = "waves-effect waves-light btn"
+          <li> <button className = "waves-effect waves-light btn"
           onClick = {
             this.solve.bind(this)
-          } > solve < /button></li >
-          < /ul> < /div>
+          } > solve </button></li>
+          </ul> </div>
+          </div>
 
-          < /div>
         );
       }
 
