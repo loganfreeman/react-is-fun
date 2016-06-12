@@ -21,12 +21,17 @@ ul.buttonList li {
     width: 30px;
     height: 30px;
     float: left;
-    color: #100d09;
+    color: blue;
     font-weight: bold;
     line-height: 30px;
     font-size: 20px;
     vertical-align: middle;
     text-align: center;
+}
+
+.changed {
+  color: red;
+  font-weight: bold;
 }
 
 .lid {

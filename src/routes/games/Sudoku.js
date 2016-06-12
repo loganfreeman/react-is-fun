@@ -44,6 +44,11 @@ class Tile extends Component {
   }
 
   render() {
+    let cx = classNames.bind(s);
+    let className;
+    if(this.props.tile.get('changed')) {
+      className = cx(s.changed);
+    }
     return ( < div className = {
         s.tile
       }
@@ -53,7 +58,7 @@ class Tile extends Component {
       ref = {
         (c) => this.element = c
       } >
-      < div > {
+      < div className={className}> {
         this.getValue()
       } < /div> < /div>
     )
@@ -142,6 +147,9 @@ class Row extends Component {
       handleTileClick(event) {
         let tile = event.detail;
         if (!tile.get('value')){
+          this.setState({
+            selectedTile: tile
+          })
           this.handleOpen();
         }
 
@@ -205,11 +213,25 @@ class Row extends Component {
         this.setState({open: true});
       };
 
-      handleClose = () => {
+      closeDialog() {
         this.setState({
           open: false,
           selectedCell: undefined
         });
+      }
+
+      handleClose = (cancel) => {
+        if (cancel) {
+          this.closeDialog()
+        }
+        let allowed = game.getAllowed(this.state.game, this.state.selectedTile.get('id'));
+        if(_.contains(allowed, this.state.selectedCell)){
+          let newGame = game.setTile(this.state.game, this.state.selectedTile.get('id'), this.state.selectedCell);
+          this.updateGame(newGame);
+          this.closeDialog();
+
+        }
+
       };
 
       handleDialogTileClick(value) {
@@ -226,13 +248,12 @@ class Row extends Component {
               <FlatButton
                 label="Cancel"
                 primary={true}
-                onClick={this.handleClose.bind(this)}
+                onClick={this.handleClose.bind(this, true)}
               />,
               <FlatButton
                 label="Submit"
                 primary={true}
-                disabled={true}
-                onClick={this.handleClose.bind(this)}
+                onClick={this.handleClose.bind(this, false)}
               />,
             ];
 

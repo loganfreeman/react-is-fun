@@ -54,12 +54,16 @@ function getAllowed(game, pos) {
 
 function setTile(game, tile, value) {
   const updated = !game.getIn(['tiles', tile]) ?
-    game : game.setIn(['tiles', tile, 'value'], value);
+    game : game.withMutations(game => {
+      game.setIn(['tiles', tile, 'changed'], true).setIn(['tiles', tile, 'value'], value)
+    })
   return updated;
 }
 
 function revealTile(game, tile) {
   const updated = !game.getIn(['tiles', tile]) ?
-    game : game.setIn(['tiles', tile, 'isRevealed'], true);
+    game : game.withMutations(game => {
+      game.setIn(['tiles', tile, 'isRevealed'], true)
+    });
   return updated;
 }
