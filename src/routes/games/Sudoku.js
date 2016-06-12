@@ -171,7 +171,14 @@ class Row extends Component {
 
       undo() {
         if (this.canUndo()) {
-
+          let history = this.state.history.pop();
+          let game = history.last();
+          let rows = utils.partition(game.get('cols'), game.get('tiles'));
+          this.setState({
+            game: game,
+            rows: rows,
+            history: history
+          })
         }
       }
 
@@ -203,7 +210,7 @@ class Row extends Component {
           <button className = "waves-effect waves-light btn"
           onClick = {
             this.startNewGame.bind(this)
-          } > New Game < /button> < /li> 
+          } > New Game < /button> < /li>
           < li > < button className = "waves-effect waves-light btn"
           onClick = {
             this.undo.bind(this)
