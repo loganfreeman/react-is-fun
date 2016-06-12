@@ -203,10 +203,7 @@ class Row extends Component {
           <button className = "waves-effect waves-light btn"
           onClick = {
             this.startNewGame.bind(this)
-          } > New Game < /button> < /li> < li > < button className = "waves-effect waves-light btn"
-          onClick = {
-            this.revealTiles.bind(this)
-          } > Reveal tiles < /button></li >
+          } > New Game < /button> < /li> 
           < li > < button className = "waves-effect waves-light btn"
           onClick = {
             this.undo.bind(this)
