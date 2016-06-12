@@ -6,6 +6,9 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Sudoku.css';
 import * as utils from './utils';
 import * as game from './SudokuGame';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import {
   List
 } from 'immutable';
@@ -16,6 +19,7 @@ class Tile extends Component {
   static propTypes = {
     tile: React.PropTypes.object
   }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -129,13 +133,14 @@ class Row extends Component {
         super(props);
         this.state = {
           showJson: false,
-          history: List()
+          history: List(),
+          open: false
         }
       }
 
       handleTileClick(event) {
-        let g = game.revealTile(this.state.game, event.detail.get('id'));
-        this.updateGame(g);
+        this.handleOpen();
+
       }
 
       boundTileClick = this.handleTileClick.bind(this);
@@ -165,10 +170,6 @@ class Row extends Component {
         this.updateGame(newGame);
       }
 
-      revealTiles() {
-
-      }
-
       undo() {
         if (this.canUndo()) {
           let history = this.state.history.pop();
@@ -196,7 +197,29 @@ class Row extends Component {
         })
       }
 
+      handleOpen = () => {
+        this.setState({open: true});
+      };
+
+      handleClose = () => {
+        this.setState({open: false});
+      };
+
       render() {
+        const actions = [
+              <FlatButton
+                label="Cancel"
+                primary={true}
+                onClick={this.handleClose.bind(this)}
+              />,
+              <FlatButton
+                label="Submit"
+                primary={true}
+                disabled={true}
+                onClick={this.handleClose.bind(this)}
+              />,
+            ];
+
         return ( <div className = "container"
           ref = {
             (c) => this.container = c
@@ -222,6 +245,14 @@ class Row extends Component {
             this.solve.bind(this)
           } > solve </button></li>
           </ul> </div>
+          <Dialog
+                    title="Dialog With Actions"
+                    actions={actions}
+                    modal={true}
+                    open={this.state.open}
+                  >
+                    Only actions can close this dialog.
+                  </Dialog>
           </div>
 
         );
