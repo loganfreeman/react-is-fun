@@ -13,6 +13,8 @@ import s from './App.css';
 import Header from '../Header';
 import Feedback from '../Feedback';
 import Footer from '../Footer';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 class App extends Component {
 
@@ -51,12 +53,17 @@ class App extends Component {
   }
 
   render() {
-    return !this.props.error ? (
+    let app = (
       <div>
         <Header />
         {this.props.children}
         <Footer />
       </div>
+    )
+    return !this.props.error ? (
+      <MuiThemeProvider muiTheme={getMuiTheme()}>
+        {app}
+      </MuiThemeProvider>
     ) : this.props.children;
   }
 
