@@ -140,7 +140,8 @@ class Row extends Component {
         this.state = {
           showJson: false,
           history: List(),
-          open: false
+          open: false,
+          alertOpen: false
         }
       }
 
@@ -201,12 +202,19 @@ class Row extends Component {
 
       solve() {
         let solved = game.solve(this.state.game);
-        let rows = utils.partition(solved.get('cols'), solved.get('tiles'))
-        this.setState({
-          game: solved,
-          rows: rows,
-          history: this.state.history.push(solved)
-        })
+        if(solved) {
+          let rows = utils.partition(solved.get('cols'), solved.get('tiles'))
+          this.setState({
+            game: solved,
+            rows: rows,
+            history: this.state.history.push(solved)
+          })
+        }else {
+          this.setState({
+            alertOpen: true
+          })
+        }
+
       }
 
       handleOpen = () => {
@@ -257,6 +265,16 @@ class Row extends Component {
               />,
             ];
 
+            const alertActions = [
+                  <FlatButton
+                    label="Cancel"
+                    primary={true}
+                    onClick={() => {this.setState({alertOpen: false})}}
+                  />
+                ];
+
+
+
         const getDialogContent = () => {
           return _.range(3).map((i) => {
             let r = i * 3;
@@ -300,7 +318,7 @@ class Row extends Component {
           } > solve </button></li>
           </ul> </div>
           <Dialog
-                    title="Dialog With Actions"
+                    title="Select a number"
                     actions={actions}
                     modal={true}
                     open={this.state.open}
@@ -308,6 +326,15 @@ class Row extends Component {
                     <div className={s.board}>
                       {dialogContent}
                     </div>
+                  </Dialog>
+          <Dialog
+                    title="Alert Dialog"
+                    actions={alertActions}
+                    modal={false}
+                    open={this.state.alertOpen}
+                    onRequestClose={() => {this.setState({alertOpen: false})}}
+                  >
+                    Cannot solve the puzzle!
                   </Dialog>
           </div>
 

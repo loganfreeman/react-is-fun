@@ -38,12 +38,18 @@ function createGame() {
 function solve(game) {
   let board = game.get('tiles').toArray().map((tile: any, idx: number) => tile.get('value'));
 
-  return fromJS({
-    cols: 9,
-    rows: 9,
-    playingTime: 0,
-    tiles: makeTiles(algo.solvePuzzle(board))
-  });
+  let solvedBoard = algo.solvePuzzle(board);
+
+  if (solvedBoard) {
+    return fromJS({
+      cols: 9,
+      rows: 9,
+      playingTime: 0,
+      tiles: makeTiles(algo.solvePuzzle(board))
+    });
+  }
+
+
 }
 
 function getAllowed(game, pos) {
