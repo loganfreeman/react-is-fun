@@ -25,12 +25,15 @@ class Tile extends Component {
   }
 
   handleClick(event) {
-    console.log(this.props.tile.toJS());
+    // console.log(this.props.tile.toJS());
+    let e = new CustomEvent('tileClick', {tile: this.props.tile});
+    document.dispatchEvent(e);
+
   }
 
   render() {
     return (
-      <div className={s.tile} onClick={this.handleClick.bind(this)}>
+      <div className={s.tile} onClick={this.handleClick.bind(this)} ref={(c) => this.element = c}>
         <div className={s.lid} />
         <div>
           {this.getValue()}
@@ -104,6 +107,22 @@ class Sudoku extends Component {
     }
   }
 
+  handleTileClick(event) {
+    console.log(event.tile.toJS());
+  }
+
+  boundTileClick = this.handleTileClick.bind(this);
+
+  componentDidMount() {
+    console.log('add event listener', 'tileClick');
+    this.container.addEventListener('tileClick', this.boundTileClick)
+  }
+
+  componentWillUnmount() {
+    console.log('remove event listener', 'tileClick');
+    this.container.removeEventListener('tileClick', this.boundTileClick)
+  }
+
   startNewGame() {
     let newGame = game.createGame();
     let rows = utils.partition(newGame.get('cols'), newGame.get('tiles'));
@@ -148,7 +167,7 @@ class Sudoku extends Component {
 
   render() {
     return (
-      <div className="container" >
+      <div className="container" ref={(c) => this.container = c}>
         <Board rows={this.state.rows} />
         <div className="row">
           <ul className={s.buttonList}>
