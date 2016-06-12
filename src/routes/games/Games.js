@@ -5,6 +5,7 @@ import Sudoku from './Sudoku';
 import Tetris from './Tetris';
 import classNames from 'classnames/bind';
 import MineSweeper from './MineSweeper';
+import SVGGame from './SVG';
 
 class Games extends Component {
 
@@ -46,6 +47,8 @@ class Games extends Component {
         return <Tetris />;
       case  'minesweeper':
         return <MineSweeper />;
+      case 'svg':
+        return <SVGGame />;
       default:
         return <h1>This should not happen!</h1>
     }

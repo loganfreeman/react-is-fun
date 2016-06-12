@@ -14,6 +14,9 @@ export default {
     }, {
       text: 'MineSweeper',
       key: 'minesweeper'
+    },{
+      text: 'SVG',
+      key: 'svg'
     }];
     return <Games title="Games" menus={menus}/>;
   },
