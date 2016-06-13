@@ -729,6 +729,7 @@ GameData.patternLimit = 7;
 GameData.cssAnimateTimeout = 300;
 GameData.maxCustomPiece = 5;
 GameData.customPieceWidth = 4;
+GameData.score = 0;
 
 
 export class Piece {
