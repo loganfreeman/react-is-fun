@@ -6,7 +6,12 @@ export default {
 
   action() {
 
-    return <Demo title="d3"/>;
+    let  categories = {
+        "Inbox": ['Starred', 'Sent mail', 'Drafts', 'Inbox'],
+        "All mail": ['Trash', 'Spam', 'Follow up']
+      }
+
+    return <Demo title="d3" categories={categories}/>;
   },
 
 };

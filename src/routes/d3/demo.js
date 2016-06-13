@@ -20,7 +20,7 @@ class Demo extends Component {
   constructor(props) {
     super(props);
     let state = {};
-    Object.getOwnPropertyNames(this.categories).forEach((category) => {
+    Object.getOwnPropertyNames(this.props.categories).forEach((category) => {
       state[category] = {};
       state[category].open = false;
     })
@@ -31,6 +31,7 @@ class Demo extends Component {
 
   static propTypes = {
     title: PropTypes.string,
+    categories: React.PropTypes.object.isRequired,
   };
 
   componentWillMount() {
@@ -51,10 +52,7 @@ class Demo extends Component {
     console.log(item);
   }
 
-  categories = {
-    "Inbox": ['Starred', 'Sent mail', 'Drafts', 'Inbox'],
-    "All mail": ['Trash', 'Spam', 'Follow up']
-  }
+
 
   render() {
     let styles = {
@@ -62,14 +60,14 @@ class Demo extends Component {
     }
 
 
-    let lists = Object.getOwnPropertyNames(this.categories).map((category, i) => {
+    let lists = Object.getOwnPropertyNames(this.props.categories).map((category, i) => {
       let display = this.state.categories.getIn([category, 'open']) ? 'block' : 'none';
       let indent = {
         "paddingLeft": "28px",
         display: display
       }
 
-      let items = this.categories[category].map((item, j) => {
+      let items = this.props.categories[category].map((item, j) => {
         return (
           <ListItem style={indent} primaryText={item} key={j+1} onClick={this.handleItemClick.bind(this, item)}>
           </ListItem>
