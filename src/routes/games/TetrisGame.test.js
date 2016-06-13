@@ -15,4 +15,9 @@ describe('tetris game', () => {
     let c = new Coordinate(4, 3);
     expect(game.coordToPosMem(c)).to.equal(34);
   })
+  it('should convert position to coordinate', () => {
+    let p = 34;
+    let c = new Coordinate(4, 3);
+    expect(game.posToCoord(p).equals(c)).to.be.true;
+  })
 })

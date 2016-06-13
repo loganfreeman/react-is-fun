@@ -543,10 +543,7 @@ export var posToCoord = _.memoize(function(i) {
   var x = i % getBoardWidth(),
     y = (i - x) / getBoardWidth();
 
-  return {
-    x: x,
-    y: y
-  };
+  return new Coordinate(x, y);
 });
 
 export var withinGridMem = _.memoize(function(cell) {
@@ -700,6 +697,10 @@ export class Coordinate {
   constructor(x, y) {
     this.x = x;
     this.y = y;
+  }
+
+  equals(other) {
+    return this.x === other.x && this.y === other.y;
   }
 }
 
