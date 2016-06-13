@@ -122,7 +122,6 @@ class Algorithms extends Component {
     this.state = {
       categories: Object.keys(this.props.algorithms)
     }
-    console.log(this.state);
   }
 
   componentWillMount() {

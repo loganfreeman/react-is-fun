@@ -19,6 +19,7 @@ import content from './content';
 import error from './error';
 import algorithms from './algorithms';
 import games from './games';
+import d3demo from './d3';
 
 export default {
 
@@ -28,6 +29,7 @@ export default {
     home,
     contact,
     algorithms,
+    d3demo,
     games,
     login,
     register,

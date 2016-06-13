@@ -20,6 +20,7 @@ function Navigation({ className }) {
       <span className={s.spacer}> | </span>
       <Link className={s.link} to="/games">Games</Link>
       <Link className={s.link} to="/algorithms">Algorithms</Link>
+      <Link className={s.link} to="/d3">D3</Link>
       <Link className={s.link} to="/about">About</Link>
     </div>
   );
