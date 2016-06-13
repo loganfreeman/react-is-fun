@@ -47,6 +47,10 @@ class Demo extends Component {
     //console.log(JSON.stringify(categories.toJS(), null, 2))
   }
 
+  handleItemClick(item) {
+    console.log(item);
+  }
+
   categories = {
     "Inbox": ['Starred', 'Sent mail', 'Drafts', 'Inbox'],
     "All mail": ['Trash', 'Spam', 'Follow up']
@@ -67,7 +71,7 @@ class Demo extends Component {
 
       let items = this.categories[category].map((item, j) => {
         return (
-          <ListItem style={indent} primaryText={item} key={j+1}>
+          <ListItem style={indent} primaryText={item} key={j+1} onClick={this.handleItemClick.bind(this, item)}>
           </ListItem>
         )
       })
