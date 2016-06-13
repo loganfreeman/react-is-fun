@@ -41,7 +41,6 @@ class Demo extends Component {
             <ListItem style={indent} primaryText="Drafts" leftIcon={<ContentDrafts />} />
             <ListItem style={indent} primaryText="Inbox" leftIcon={<ContentInbox />} />
           </List>
-          <Divider />
           <List>
             <ListItem primaryText="All mail" rightIcon={<NavigationArrowForward />} />
             <ListItem style={indent} primaryText="Trash" rightIcon={<ActionInfo />} />
