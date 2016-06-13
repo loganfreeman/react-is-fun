@@ -44,7 +44,7 @@ class Demo extends Component {
     this.setState({
       categories: categories
     })
-    console.log(JSON.stringify(categories.toJS(), null, 2))
+    //console.log(JSON.stringify(categories.toJS(), null, 2))
   }
 
   categories = {
