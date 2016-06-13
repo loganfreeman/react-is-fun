@@ -1,4 +1,5 @@
 import _ from 'underscore';
+import {deepCopy} from './utils';
 
 export const PATTERNS = [
   [

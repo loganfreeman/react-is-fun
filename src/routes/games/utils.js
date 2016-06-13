@@ -1,7 +1,10 @@
 import {List,Map,fromJS} from 'immutable';
 import _ from 'underscore';
 
-export {getRandomInt, makeArray, shuffleArray, makeArray2, cloneArray, removeElement, randomInt, listbits, partition}
+export {getRandomInt, makeArray, shuffleArray, makeArray2, cloneArray, removeElement, randomInt, listbits, partition, deepCopy}
+function deepCopy(originalObject:any):any {
+  return JSON.parse(JSON.stringify(originalObject));
+}
 function getRandomInt(min, max) {
   return Math.floor( Math.random() * ( max + 1 - min ) ) + min;
 }

@@ -127,4 +127,67 @@ describe('tetris game', () => {
     GridService.buildEmptyGameBoard();
     GameData.score = 0;
   })
+  it('should update position', () => {
+    let newPos = { y: pos.y + 1};
+    let fn = sinon.spy();
+    sinon.spy(piece, 'verifyPiece');
+    piece.updatePosition(newPos, fn);
+    expect(piece.verifyPiece.calledWith({x: pos.x, y: newPos.y})).to.be.true;
+    expect(fn.calledOnce).not.be.true;
+    expect(piece.PositionX).to.equal(pos.x);
+    expect(piece.PositionY).to.equal(newPos.y);
+    piece.verifyPiece.restore();
+  })
+  it('should update position and call callback if collision happens', () => {
+    let cell = piece.calculateCollisionPoint();
+    let newPos = {x : cell.x, y: cell.y + 1};
+    let oldPos = piece.Coord;
+    expect(piece.verifyPiece(cell)).to.equal(true);
+    expect(piece.verifyPiece(newPos)).to.equal(false);
+    let fn = sinon.spy();
+    sinon.spy(piece, 'verifyPiece');
+    piece.updatePosition(newPos, fn);
+    expect(fn.calledOnce).be.true;
+    expect(piece.PositionX).to.equal(oldPos.x);
+    expect(piece.PositionY).to.equal(oldPos.y);
+    piece.verifyPiece.restore();
+  })
+  it('should calculate collision point', () => {
+    sinon.spy(piece, 'verifyPiece');
+    let cell = piece.calculateCollisionPoint();
+    expect(piece.verifyPiece(cell)).to.equal(true);
+    expect(piece.verifyPiece({x : cell.x, y: cell.y + 1})).to.equal(false);
+    piece.verifyPiece.restore();
+  })
+  it('should rotate piece', () => {
+    let oldRotation = piece.rotation;
+    sinon.spy(piece, 'verifyPiece');
+    piece.rotatePiece();
+    expect(piece.verifyPiece.calledOnce).to.be.true;
+    expect(piece.rotation).to.equal((oldRotation + 1) % GameData.rotationLimit)
+    piece.verifyPiece.restore();
+  })
+  it('should update ghost piece', () => {
+    piece.updateGhostPiece();
+    let cell = piece.calculateCollisionPoint();
+    let coord = piece.convertPatternToCoordinates(cell);
+    for(var i = 0, len = coord.length; i < len; i++) {
+        let pos = game.coordToPosMem(coord[i]);
+        expect(grid[pos].ghost).to.equal(true);
+    }
+  })
+  it('should update current piece', () => {
+    piece.updateCurrentPiece();
+    let shape = piece.getShape();
+    let coord = piece.convertPatternToCoordinates();
+    for(var i = 0, len = coord.length; i < len; i++) {
+      let pos = game.coordToPosMem(coord[i]);
+      expect(grid[pos].current).to.equal(true);
+      expect(grid[pos].shape).to.equal(shape);
+    }
+  })
+  it('should test within grid', () => {
+    let truth = game.withinGridMem(piece.Coord);
+    expect(truth).to.be.true;
+  })
 })
