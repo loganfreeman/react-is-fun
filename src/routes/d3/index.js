@@ -6,12 +6,17 @@ export default {
 
   action() {
 
-    let  categories = {
-        "Inbox": ['Starred', 'Sent mail', 'Drafts', 'Inbox'],
-        "All mail": ['Trash', 'Spam', 'Follow up']
-      }
+    let categories = {
+      "Charts": ['Area Chart', 'Bar Chart', 'CandieStick Chart', 'Line Chart', 'Pie Chart', 'Scatter Chart', 'Treemap'],
+      "Mxins": ['Cartesian Chart Mixins'],
+      "Others": ['Axis', 'Date', 'Responsive Charts']
+    }
 
-    return <Demo title="d3" categories={categories}/>;
+    return <Demo title = "d3"
+    categories = {
+      categories
+    }
+    />;
   },
 
 };
