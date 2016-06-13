@@ -564,11 +564,11 @@ export function generateUID() {
 }
 
 export var getX = _.memoize(function(x) {
-  return x * board.pieceWidthInPixel + board.borderWidth;
+  return x * BOARD_CONST.pieceWidthInPixel + BOARD_CONST.borderWidth;
 })
 
 export var getY = _.memoize(function(y) {
-  return y * board.pieceWidthInPixel;
+  return y * BOARD_CONST.pieceWidthInPixel;
 })
 
 /* grid service is a singleton */

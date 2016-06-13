@@ -28,4 +28,25 @@ describe('tetris game', () => {
     c = new Coordinate(10, 19);
     expect(game.withinGridMem(c)).to.be.false;
   })
+  it('should generate uid', () => {
+    let id = game.generateUID();
+    expect(typeof id).to.equal('string');
+    expect(id.length).to.equal(36);
+  })
+  it('should get x and y in pixels', () => {
+    let x = 4;
+    let y = 10;
+    expect(game.getX(x)).to.equal(110);
+    expect(game.getY(y)).to.equal(250);
+  })
+  it('should get gridService', () => {
+    let gridService = GridService.getSingleton();
+    expect(Array.isArray(gridService.grid)).to.be.true;
+    GridService.buildEmptyGameBoard();
+    gridService.grid.forEach((piece) => {
+      expect(piece.filled).to.be.false;
+      expect(piece.shape).to.be.null;
+      expect(piece.ghost).to.be.false;
+    })
+  })
 })
