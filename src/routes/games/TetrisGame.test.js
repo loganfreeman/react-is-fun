@@ -20,4 +20,12 @@ describe('tetris game', () => {
     let c = new Coordinate(4, 3);
     expect(game.posToCoord(p).equals(c)).to.be.true;
   })
+  it('should within grid', () => {
+    let c = new Coordinate(4, 3);
+    expect(game.withinGridMem(c)).to.be.true;
+    c = new Coordinate(4, 20);
+    expect(game.withinGridMem(c)).to.be.false;
+    c = new Coordinate(10, 19);
+    expect(game.withinGridMem(c)).to.be.false;
+  })
 })
