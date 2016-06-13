@@ -49,4 +49,26 @@ describe('tetris game', () => {
       expect(piece.ghost).to.be.false;
     })
   })
+  it('should update ghost piece', () => {
+    let c = new Coordinate(4, 3);
+    let gridService = GridService.getSingleton();
+    GridService.updateGhostPiece(c);
+    expect(GridService.getSingleton().grid[34].ghost).to.be.true;
+    GridService.resetGhostPiece();
+    gridService.grid.forEach((piece) => {
+      expect(piece.ghost).to.be.false;
+    })
+  })
+  it('should update current piece', () => {
+    let c = new Coordinate(4, 3);
+    let gridService = GridService.getSingleton();
+    GridService.updateCurrentPiece(c, 3);
+    let piece = GridService.getSingleton().grid[34];
+    expect(piece.current).to.be.true;
+    expect(piece.shape).to.equal(3);
+    GridService.resetCurrentPiece();
+    gridService.grid.forEach((piece) => {
+      expect(piece.current).to.be.false;
+    })
+  })
 })
