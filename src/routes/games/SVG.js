@@ -7,7 +7,6 @@ import classNames from 'classnames/bind';
 class Game extends React.Component {
   render() {
     let styles = {
-      "font-family": "sans-serif",
       width: "400px",
       height: "400px"
 

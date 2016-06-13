@@ -9,11 +9,25 @@ import ContentDrafts from 'material-ui/svg-icons/content/drafts';
 import Divider from 'material-ui/Divider';
 import ActionInfo from 'material-ui/svg-icons/action/info';
 import NavigationArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
+import _ from 'underscore';
+import {Map, fromJS} from 'immutable';
 
 class Demo extends Component {
   static contextTypes = {
     setTitle: PropTypes.func.isRequired,
   };
+
+  constructor(props) {
+    super(props);
+    let state = {};
+    Object.getOwnPropertyNames(this.categories).forEach((category) => {
+      state[category] = {};
+      state[category].open = false;
+    })
+    this.state = {
+      categories: fromJS(state)
+    };
+  }
 
   static propTypes = {
     title: PropTypes.string,
@@ -23,31 +37,55 @@ class Demo extends Component {
     this.context.setTitle(this.props.title);
   }
 
+  handleCategoryClick(category) {
+    let categories = this.state.categories;
+    let state = categories.getIn([category, 'open']);
+    categories = categories.setIn([category, 'open'], !state);
+    this.setState({
+      categories: categories
+    })
+    console.log(JSON.stringify(categories.toJS(), null, 2))
+  }
+
+  categories = {
+    "Inbox": ['Starred', 'Sent mail', 'Drafts', 'Inbox'],
+    "All mail": ['Trash', 'Spam', 'Follow up']
+  }
+
   render() {
     let styles = {
-      height: "900px"
+      height: "900px",
     }
-    let indent = {
-      "padding-left": "28px"
-    }
+
+
+    let lists = Object.getOwnPropertyNames(this.categories).map((category, i) => {
+      let display = this.state.categories.getIn([category, 'open']) ? 'block' : 'none';
+      let indent = {
+        "paddingLeft": "28px",
+        display: display
+      }
+
+      let items = this.categories[category].map((item, j) => {
+        return (
+          <ListItem style={indent} primaryText={item} key={j+1}>
+          </ListItem>
+        )
+      })
+      items.unshift(
+        <ListItem key={0} primaryText={category} rightIcon={<NavigationArrowForward />} onClick={this.handleCategoryClick.bind(this, category)}/>
+      )
+      return (
+        <List key={i}>
+          {items}
+        </List>
+      )
+    })
     return (
       <div className="HolyGrail-body" style={styles}>
         <main className="HolyGrail-content">…</main>
-        <nav className="HolyGrail-nav">
-          <List>
-            <ListItem primaryText="Inbox" rightIcon={<NavigationArrowForward />} />
-            <ListItem style={indent} primaryText="Starred" leftIcon={<ActionGrade />} />
-            <ListItem style={indent} primaryText="Sent mail" leftIcon={<ContentSend />} />
-            <ListItem style={indent} primaryText="Drafts" leftIcon={<ContentDrafts />} />
-            <ListItem style={indent} primaryText="Inbox" leftIcon={<ContentInbox />} />
-          </List>
-          <List>
-            <ListItem primaryText="All mail" rightIcon={<NavigationArrowForward />} />
-            <ListItem style={indent} primaryText="Trash" rightIcon={<ActionInfo />} />
-            <ListItem style={indent} primaryText="Spam" rightIcon={<ActionInfo />} />
-            <ListItem style={indent} primaryText="Follow up" rightIcon={<ActionInfo />} />
-          </List>
-        </nav>
+        <div className="HolyGrail-nav">
+          {lists}
+        </div>
         <aside className="HolyGrail-ads">…</aside>
       </div>
     )
