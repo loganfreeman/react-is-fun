@@ -303,7 +303,8 @@ class Tetris extends Component {
     })
     let pauseText = this.isPause ? 'Resume' : 'Pause';
 
-    let pauseIcon = this.isPause ? <AvPause /> : <AvPlayArrow />
+    let pauseIcon = this.isPause ? <AvPause /> : <AvPlayArrow />;
+
     return (
       <div className="flexbox-container">
         <div>

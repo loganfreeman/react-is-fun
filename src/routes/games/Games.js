@@ -73,7 +73,7 @@ class Games extends Component {
 
     return (
       <div className={s.root}>
-        <div className="navbar-fixed">
+        <div>
           <nav>
             <div className="nav-wrapper">
               <a href="#" className="brand-logo center">Games</a>
