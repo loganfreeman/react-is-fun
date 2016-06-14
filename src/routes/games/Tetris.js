@@ -41,7 +41,6 @@ class Tetris extends Component {
   componentWillMount() {
     this.setState({
       grid: GridService.getSingleton().grid,
-      pieces: _.range(16),
     })
   }
 
@@ -89,8 +88,10 @@ class Tetris extends Component {
   }
 
   hardDrop() {
+    if (this.currentPiece) {
       let cell = this.currentPiece.calculateCollisionPoint();
       this.currentPiece.updatePosition(cell, () => this.insertAndClearRow());
+    }
   }
 
   handleKeypress(event) {
@@ -147,7 +148,6 @@ class Tetris extends Component {
     this.updateGhostPiece();
     this.setState({
       grid: GridService.getSingleton().grid,
-      currentPiece: this.currentPiece
     })
   }
 
@@ -189,7 +189,6 @@ class Tetris extends Component {
     this.createNewPiece();
     this.setState({
       grid: GridService.getSingleton().grid,
-      currentPiece: this.currentPiece,
     });
     this.setGameStart(true);
   }
