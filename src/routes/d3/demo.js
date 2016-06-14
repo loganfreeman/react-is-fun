@@ -11,6 +11,7 @@ import ActionInfo from 'material-ui/svg-icons/action/info';
 import NavigationArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
 import _ from 'underscore';
 import {Map, fromJS} from 'immutable';
+import {LineChart, ScatterChart, AreaChart, Treemap} from 'react-d3';
 
 class Demo extends Component {
   static contextTypes = {
@@ -49,12 +50,101 @@ class Demo extends Component {
   }
 
   handleItemClick(item) {
-    console.log(item);
+    this.setState({
+      chart: item
+    })
   }
 
+  getLineChart() {
+    let lineData = [
+      {
+        name: "series1",
+        values: [ { x: 0, y: 20 }, { x: 24, y: 10 } ],
+        strokeWidth: 3,
+        strokeDashArray: "5,5",
+      },
+      {
+        name: "series2",
+        values: [ { x: 70, y: 82 },  { x: 76, y: 82 } ]
+      }
+    ];
+    let viewBoxObject = {
+      x: 0,
+      y: 0,
+      width: 500,
+      height: 400
+    };
+    return (
+      <LineChart
+        legend={true}
+        data={lineData}
+        width={400}
+        height={400}
+        viewBoxObject={viewBoxObject}
+        title="Line Chart"
+        yAxisLabel="Altitude"
+        xAxisLabel="Elapsed Time (sec)"
+        gridHorizontal={true}
+      />
+    )
+  }
 
+  getScatterChart() {
+    let scatterData = [
+      {
+        name: "series1",
+        values: [ { x: 0, y: 20 }, { x: 24, y: 10 } ]
+      },
+      {
+        name: "series3",
+        values: [ { x: 70, y: 82 }, { x: 76, y: 82 } ]
+      }
+    ];
+    return (
+      <ScatterChart
+        data={scatterData}
+        width={500}
+        height={400}
+        title="Scatter Chart"
+      />
+    )
+  }
+
+  getTreemap() {
+    let treemapData = [
+  {label: "China", value: 1364},
+  {label: "India", value: 1296},
+  {label: "Brazil", value: 203}
+];
+    return (
+      <Treemap
+        data={treemapData}
+        width={450}
+        height={250}
+        textColor="#484848"
+        fontSize="12px"
+        title="Treemap"
+        hoverAnimation={false}
+      />
+    )
+  }
+
+  getContent(chart) {
+    if(chart === 'Line Chart'){
+      return this.getLineChart();
+    }
+    if(chart === 'Scatter Chart') {
+      return this.getScatterChart();
+    }
+    if(chart === 'Treemap') {
+      return this.getTreemap();
+    }
+
+    return <h1>No Chart Selected</h1>
+  }
 
   render() {
+    let content = this.getContent(this.state.chart);
     let styles = {
       height: "900px",
     }
@@ -84,11 +174,11 @@ class Demo extends Component {
     })
     return (
       <div className="HolyGrail-body" style={styles}>
-        <main className="HolyGrail-content">…</main>
+        <main className="HolyGrail-content">{content}</main>
         <div className="HolyGrail-nav">
           {lists}
         </div>
-        <aside className="HolyGrail-ads">…</aside>
+        <aside className="HolyGrail-ads"></aside>
       </div>
     )
   }
