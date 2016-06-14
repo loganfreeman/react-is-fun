@@ -22,6 +22,7 @@ import FontIcon from 'material-ui/FontIcon';
 import AvPause from 'material-ui/svg-icons/av/pause';
 import AvPlayArrow from 'material-ui/svg-icons/av/play-arrow';
 import AvStop from  'material-ui/svg-icons/av/stop';
+import HardwareGamepad from  'material-ui/svg-icons/hardware/gamepad';
 import * as game from './TetrisGame';
 import _ from 'underscore';
 import {
@@ -113,10 +114,10 @@ class Tetris extends Component {
     this.createNewPiece();
     this.setState({
       grid: GridService.getSingleton().grid,
-      currentPiece: this.currentPiece
+      currentPiece: this.currentPiece,
+      isPause: false,
+      isStart: true
     })
-    this.setGameStart(true);
-    console.log('Game Started');
   }
   resetGame() {
     GridService.buildEmptyGameBoard();
@@ -217,6 +218,8 @@ class Tetris extends Component {
     return pieceClass;
   }
 
+
+
   render() {
     let cx = classNames.bind(s);
     let cells = this.state.grid.map((cell, i) => {
@@ -228,6 +231,9 @@ class Tetris extends Component {
         <div style={styles} key={i} className={cx(pieceClasses)}/>
       )
     })
+    let pauseText = this.state.isPause ? 'Resume' : 'Pause';
+
+    let pauseIcon = this.state.isPause ? <AvPause /> : <AvPlayArrow />
     return (
       <div className="flexbox-container">
         <div>
@@ -241,12 +247,12 @@ class Tetris extends Component {
               <FlatButton
                 onClick={() => this.startGame()}
                 label="New Game"
-                icon={<AvPlayArrow />}
+                icon={<HardwareGamepad />}
               />
               <FlatButton
-                onClick={() => this.setGamePause(true)}
-                label="Pause"
-                icon={<AvPause />}
+                onClick={() => this.setGamePause(!this.state.isPause)}
+                label={pauseText}
+                icon={pauseIcon}
               />
               <FlatButton
                 onClick={() => this.gameOver()}
