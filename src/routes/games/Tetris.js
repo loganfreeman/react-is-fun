@@ -114,7 +114,7 @@ class Tetris extends Component {
             this.hardDrop();
             break;
         case 27:
-            this.setGamePause(!this.isPause);
+            this.setGamePause(!this.state.isPause);
             break;
         default:
             break;
@@ -215,7 +215,7 @@ class Tetris extends Component {
   }
 
   isGamePause() {
-    return this.isPause;
+    return this.state.isPause;
   }
 
   isGameStart() {
@@ -223,7 +223,9 @@ class Tetris extends Component {
   }
 
   setGamePause(pause) {
-    this.isPause = pause;
+    this.setState({
+      isPause: pause
+    })
   }
 
   setGameStart(start) {
@@ -301,9 +303,9 @@ class Tetris extends Component {
         <div style={styles} key={i} className={cx(pieceClasses)}/>
       )
     })
-    let pauseText = this.isPause ? 'Resume' : 'Pause';
+    let pauseText = this.state.isPause ? 'Resume' : 'Pause';
 
-    let pauseIcon = this.isPause ? <AvPause /> : <AvPlayArrow />;
+    let pauseIcon = this.state.isPause ? <AvPause /> : <AvPlayArrow />;
 
     return (
       <div className="flexbox-container">
@@ -321,7 +323,7 @@ class Tetris extends Component {
                 icon={<HardwareGamepad />}
               />
               <FlatButton
-                onClick={() => this.setGamePause(!this.isPause)}
+                onClick={() => this.setGamePause(!this.state.isPause)}
                 label={pauseText}
                 icon={pauseIcon}
               />
