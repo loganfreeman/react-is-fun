@@ -44,6 +44,14 @@ class Tetris extends Component {
     })
   }
 
+  componentDidMount() {
+    this.gameOn();
+  }
+
+  componentWillUnmount() {
+    this.gameOver();
+  }
+
   gameOn() {
     window.requestAnimationFrame(() => this.gameOn()); // use arrow functions to lexically capture this
     if(!this.isGamePause() && this.isGameStart()) {
@@ -60,6 +68,11 @@ class Tetris extends Component {
     this.moveCurrentPiece();
     this.updateCurrentPiece();
     this.updateGhostPiece();
+    this.setState({
+      grid: GridService.getSingleton().grid,
+      currentPiece: this.currentPiece
+    })
+    console.log('Game loops');
   }
 
   moveCurrentPiece() {
@@ -98,7 +111,12 @@ class Tetris extends Component {
   startGame() {
     GridService.buildEmptyGameBoard();
     this.createNewPiece();
-    this.setGameStart();
+    this.setState({
+      grid: GridService.getSingleton().grid,
+      currentPiece: this.currentPiece
+    })
+    this.setGameStart(true);
+    console.log('Game Started');
   }
   resetGame() {
     GridService.buildEmptyGameBoard();
