@@ -47,10 +47,86 @@ class Tetris extends Component {
 
   componentDidMount() {
     this.gameOn();
+    window.addEventListener('keydown', this.boundKeypressHandler);
   }
+
+  rotatePiece(direction) {
+    let oldRotation = this.currentPiece.Rotation,
+        newRotation = oldRotation + direction;
+    this.currentPiece.Rotation = newRotation < 0 ? newRotation + GameData.rotationLimit : newRotation % GameData.rotationLimit;
+    let coord = this.currentPiece.convertPatternToCoordinates();
+    for(let i = 0, len = coord.length; i < len; i++) {
+        if (!this.currentPiece.withinGrid(coord[i])) {
+            if (coord[i].x < 0) {
+                this.movePieceInLevel('right');
+                break;
+            }
+            if (coord[i].x >= getBoardWidth() ) {
+                this.movePieceInLevel('left');
+                if (this.currentPiece.patterns === 2) {
+                    if (coord[i+1] && coord[i+1].x >= getBoardWidth()) {
+                        this.moveCustomInLevel(-2);
+                    }
+                    break;
+                } else {
+                    break;
+                }
+            }
+            if(!this.currentPiece.verifyPiece()) {
+                this.currentPiece.Rotation = oldRotation;
+                break;
+            }
+        }
+    }
+  }
+
+  movePieceInLevel(direction) {
+    let velocity = (direction === 'left') ? -1 : 1;
+    let  speedX = this.currentPiece.PositionX + velocity;
+    this.currentPiece.updatePosition({
+        x: speedX
+    });
+  }
+
+  hardDrop() {
+      let cell = this.currentPiece.calculateCollisionPoint();
+      this.currentPiece.updatePosition(cell, () => this.insertAndClearRow());
+  }
+
+  handleKeypress(event) {
+    let key = event.keyCode;
+    let rotateRight = 1,
+        rotateLeft = -1;
+    switch (key) {
+        case 38:
+            this.rotatePiece(rotateRight);
+            break;
+        case 37:
+            this.movePieceInLevel('left');
+            break;
+        case 39:
+            this.movePieceInLevel('right');
+            break;
+        case 40:
+            this.rotatePiece(rotateLeft);
+            break;
+        case 32:
+            this.hardDrop();
+            break;
+        case 27:
+            this.setGamePause(!this.isPause);
+            break;
+        default:
+            break;
+    }
+    this.updateGhostPiece();
+  }
+
+  boundKeypressHandler = this.handleKeypress.bind(this);
 
   componentWillUnmount() {
     this.gameOver();
+    window.removeEventListener('keydown', this.boundKeypressHandler);
   }
 
   gameOn() {
@@ -73,11 +149,10 @@ class Tetris extends Component {
       grid: GridService.getSingleton().grid,
       currentPiece: this.currentPiece
     })
-    console.log('Game loops');
   }
 
   moveCurrentPiece() {
-    var speedY = this.getPositionY() + 1;
+    let speedY = this.getPositionY() + 1;
     this.currentPiece.updatePosition({
         y: speedY
     }, () => this.insertAndClearRow());
@@ -115,9 +190,8 @@ class Tetris extends Component {
     this.setState({
       grid: GridService.getSingleton().grid,
       currentPiece: this.currentPiece,
-      isPause: false,
-      isStart: true
-    })
+    });
+    this.setGameStart(true);
   }
   resetGame() {
     GridService.buildEmptyGameBoard();
@@ -141,23 +215,19 @@ class Tetris extends Component {
   }
 
   isGamePause() {
-    return this.state.isPause;
+    return this.isPause;
   }
 
   isGameStart() {
-    return this.state.isStart;
+    return this.isStart;
   }
 
   setGamePause(pause) {
-    this.setState({
-      isPause: pause
-    })
+    this.isPause = pause;
   }
 
   setGameStart(start) {
-    this.setState({
-      isStart: start
-    })
+    this.isStart = start;
   }
 
   gameOver() {
@@ -187,7 +257,7 @@ class Tetris extends Component {
   }
 
   getFilledClass(cell) {
-    var pieceClass = ['dy-grid-cell'];
+    let pieceClass = ['dy-grid-cell'];
     if (cell.filled || cell.current) {
         switch(cell.shape) {
             case 0: pieceClass.push('dy-L-filled');
@@ -231,9 +301,9 @@ class Tetris extends Component {
         <div style={styles} key={i} className={cx(pieceClasses)}/>
       )
     })
-    let pauseText = this.state.isPause ? 'Resume' : 'Pause';
+    let pauseText = this.isPause ? 'Resume' : 'Pause';
 
-    let pauseIcon = this.state.isPause ? <AvPause /> : <AvPlayArrow />
+    let pauseIcon = this.isPause ? <AvPause /> : <AvPlayArrow />
     return (
       <div className="flexbox-container">
         <div>
@@ -250,7 +320,7 @@ class Tetris extends Component {
                 icon={<HardwareGamepad />}
               />
               <FlatButton
-                onClick={() => this.setGamePause(!this.state.isPause)}
+                onClick={() => this.setGamePause(!this.isPause)}
                 label={pauseText}
                 icon={pauseIcon}
               />
