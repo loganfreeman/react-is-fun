@@ -10,6 +10,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {parse} from 'acorn';
 import walk from 'walk-ast';
 import * as acorn from 'acorn';
+import SimpleCanvasCallback from './simple';
 
 class Dropdown extends Component {
   constructor(props) {
@@ -163,6 +164,10 @@ class Algorithms extends Component {
     return value.charAt(0).toUpperCase() + value.slice(1)
   }
 
+  getModule() {
+    return SimpleCanvasCallback;
+  }
+
   render() {
     let cx = classNames.bind(s);
 
@@ -180,10 +185,10 @@ class Algorithms extends Component {
       )
     })
 
-    let grid = [];
+    let grid = [], callback = this.getModule();
 
     if(this.state.currentAlgorithm) {
-      grid.push(GridListGenerator(this.state.currentAlgorithm.text))
+      grid.push(GridListGenerator(this.state.currentAlgorithm.text, <h1>This is some inline makeup</h1>))
     } else if(this.state.isParser) {
       grid.push(CardExampleWithAvatar(this.parse.bind(this)));
       if(this.state.tokens) {

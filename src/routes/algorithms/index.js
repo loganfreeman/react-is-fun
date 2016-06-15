@@ -50,6 +50,9 @@ export default {
       canvas: [{
         label: 'manygolf',
         text: 'Many Golf'
+      }, {
+        label: 'react-canvas',
+        text: 'React Canvas'
       }]
     };
 
