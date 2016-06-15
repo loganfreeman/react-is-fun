@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Algorithms.css';
 import classNames from 'classnames/bind';
+import GridListExampleSimple from './grid-list-example';
 
 class Dropdown extends Component {
   constructor(props) {
@@ -162,18 +163,19 @@ class Algorithms extends Component {
       )
     })
 
+    let grid = GridListExampleSimple();
+
     return (
-      <div className="container">
-        <div className="navbar-fixed">
-          <nav>
-            <div className="nav-wrapper">
-              <ul className="left hide-on-med-and-down">
-                {algorithms}
-              </ul>
-            </div>
-          </nav>
-        </div>
-        <div className="container">
+      <div>
+        <nav>
+          <div className="nav-wrapper">
+            <ul className="left hide-on-med-and-down">
+              {algorithms}
+            </ul>
+          </div>
+        </nav>
+        <div className="row">
+          {grid}
         </div>
       </div>
     );
