@@ -145,8 +145,8 @@ class Algorithms extends Component {
   }
 
   parse() {
-    let textarea = document.getElementsByName("textarea")[0];
-    let str = textarea.value;
+    let code = document.getElementsByName("textarea_code")[0];
+    let str = code.value;
     this.setState({
       parseResult: parse(str),
       tokens: [...acorn.tokenizer(str)]
