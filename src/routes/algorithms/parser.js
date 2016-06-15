@@ -5,15 +5,15 @@ import {GridList, GridTile} from 'material-ui/GridList';
 import FlatButton from 'material-ui/FlatButton';
 
 const CardExampleWithAvatar = (parseCallback) => (
-  <Card>
-    <CardHeader/>
-    <CardMedia>
+  <Card key="parser">
+    <CardHeader key="header"/>
+    <CardMedia key="media">
     <textarea name="textarea_code" rows="10" cols="50" defaultValue="Write something here"></textarea>
     </CardMedia>
-    <CardText>
+    <CardText key="text">
 
     </CardText>
-    <CardActions>
+    <CardActions key="actions">
       <FlatButton label="Parse" onClick={parseCallback}/>
     </CardActions>
   </Card>

@@ -4,6 +4,8 @@ import s from './Algorithms.css';
 import classNames from 'classnames/bind';
 import GridListGenerator from './grid';
 import CardExampleWithAvatar from './parser';
+import {List, ListItem} from 'material-ui/List';
+
 
 import {parse} from 'acorn';
 
@@ -174,23 +176,34 @@ class Algorithms extends Component {
       )
     })
 
-    let grid;
+    let grid = [];
 
     if(this.state.currentAlgorithm) {
-      grid = GridListGenerator(this.state.currentAlgorithm.text)
+      grid.push(GridListGenerator(this.state.currentAlgorithm.text))
     } else if(this.state.isParser) {
-      grid = CardExampleWithAvatar(this.parse.bind(this));
+      grid.push(CardExampleWithAvatar(this.parse.bind(this)));
+      if(this.state.tokens) {
+        grid.push(
+        <List key="tokenList">{
+          this.state.tokens.map((token, i) => {
+            return <ListItem key={i} primaryText={token.type.label} secondaryText={token.value} />
+          })
+        }</List>
+      );
+      }
     }
+
+
 
     return (
       <div>
         <nav>
           <div className="nav-wrapper">
-            <ul className="left hide-on-med-and-down">
+            <ul className="left hide-on-med-and-down" key="leftMenus">
               {algorithms}
             </ul>
-            <ul className="right hide-on-med-and-down">
-              <li><a onClick={this.showParser.bind(this)}>Parser</a></li>
+            <ul className="right hide-on-med-and-down" key="rightMenus">
+              <li key="0"><a onClick={this.showParser.bind(this)}>Parser</a></li>
             </ul>
           </div>
         </nav>
