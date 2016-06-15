@@ -196,15 +196,15 @@ class Algorithms extends Component {
           margin: 12,
         };
         grid.push(
-        <div>{
-          this.state.tokens.map((token, i) => {
-            if(token.type.label === ';') {
-              return <br />
-            }
-            return <RaisedButton label={token.value || token.type.label} style={style} key={i}/>
-          })
-        }</div>
-      );
+          <div>{
+            this.state.tokens.map((token, i) => {
+              if(token.type.label === ';') {
+                return <br />
+              }
+              return <RaisedButton label={token.value || token.type.label} style={style} key={i}/>
+            })
+          }</div>
+        );
       }
     }
 
