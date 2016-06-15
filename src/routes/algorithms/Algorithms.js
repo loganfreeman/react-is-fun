@@ -5,7 +5,7 @@ import classNames from 'classnames/bind';
 import GridListGenerator from './grid';
 import CardExampleWithAvatar from './parser';
 import {List, ListItem} from 'material-ui/List';
-
+import RaisedButton from 'material-ui/RaisedButton';
 
 import {parse} from 'acorn';
 
@@ -183,12 +183,18 @@ class Algorithms extends Component {
     } else if(this.state.isParser) {
       grid.push(CardExampleWithAvatar(this.parse.bind(this)));
       if(this.state.tokens) {
+        const style = {
+          margin: 12,
+        };
         grid.push(
-        <List key="tokenList">{
+        <div>{
           this.state.tokens.map((token, i) => {
-            return <ListItem key={i} primaryText={token.type.label} secondaryText={token.value} />
+            if(token.type.label === ';') {
+              return <br />
+            }
+            return <RaisedButton label={token.value || token.type.label} style={style} key={i}/>
           })
-        }</List>
+        }</div>
       );
       }
     }

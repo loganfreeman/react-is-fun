@@ -14,7 +14,7 @@ const CardExampleWithAvatar = (parseCallback) => (
 
     </CardText>
     <CardActions key="actions">
-      <FlatButton label="Parse" onClick={parseCallback}/>
+      <FlatButton label="Parse" primary={true} onClick={parseCallback}/>
     </CardActions>
   </Card>
 );
