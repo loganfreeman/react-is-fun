@@ -10,7 +10,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {parse} from 'acorn';
 import walk from 'walk-ast';
 import * as acorn from 'acorn';
-import SimpleCanvasCallback from './simple';
+import SimpleCanvasCallback, {ReactCanvasSimple} from './simple';
 
 class Dropdown extends Component {
   constructor(props) {
@@ -185,10 +185,10 @@ class Algorithms extends Component {
       )
     })
 
-    let grid = [], callback = this.getModule();
+    let grid = [], callback = this.getModule(), width= 500, height = 500;
 
     if(this.state.currentAlgorithm) {
-      grid.push(GridListGenerator(this.state.currentAlgorithm.text, <h1>This is some inline makeup</h1>))
+      grid.push(GridListGenerator(this.state.currentAlgorithm.text, <ReactCanvasSimple surfaceWidth={width} surfaceHeight={height} />))
     } else if(this.state.isParser) {
       grid.push(CardExampleWithAvatar(this.parse.bind(this)));
       if(this.state.tokens) {
