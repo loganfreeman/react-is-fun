@@ -8,7 +8,7 @@ import {List, ListItem} from 'material-ui/List';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import {parse} from 'acorn';
-
+import walk from 'walk-ast';
 import * as acorn from 'acorn';
 
 class Dropdown extends Component {
@@ -149,8 +149,12 @@ class Algorithms extends Component {
   parse() {
     let code = document.getElementsByName("textarea_code")[0];
     let str = code.value;
+    let ast = parse(str);
+    walk(ast, function(node) {
+      // console.log(node.parentNode);
+    });
     this.setState({
-      parseResult: parse(str),
+      ast: ast,
       tokens: [...acorn.tokenizer(str)]
     })
   }
