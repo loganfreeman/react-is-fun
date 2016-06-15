@@ -46,6 +46,10 @@ export default {
       }, {
         label: 'dfs',
         text: 'Depth First Search'
+      }],
+      canvas: [{
+        label: 'manygolf',
+        text: 'Many Golf'
       }]
     };
 
