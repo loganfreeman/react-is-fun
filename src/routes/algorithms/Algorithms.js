@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Algorithms.css';
 import classNames from 'classnames/bind';
-import GridListExampleSimple from './grid-list-example';
+import GridListGenerator from './grid';
 
 class Dropdown extends Component {
   constructor(props) {
@@ -43,23 +43,6 @@ class Dropdown extends Component {
   }
 
   outsideClickHandler(event) {
-    // function isDescendant(parent, child) {
-    //      var node = child.parentNode;
-    //      while (node != null) {
-    //          if (node == parent) {
-    //              return true;
-    //          }
-    //          node = node.parentNode;
-    //      }
-    //      return false;
-    // }
-    // if (!isDescendant(this.refs.dropdownContainer, event.target)) {
-    //   this.setState({
-    //     isActive: false
-    //   })
-    // }
-
-    // this is more concise
     if (!this.refs.dropdownContainer.contains(event.target)) {
       this.setState({
         isActive: false
@@ -67,10 +50,17 @@ class Dropdown extends Component {
     }
   }
 
+  menuItemClick(algorithm) {
+    this.props.itemClick(algorithm);
+    this.setState({
+      isActive: false
+    })
+  }
+
   render() {
     let list = this.props.algorithms.map((algorithm, i) => {
       return (
-        <li key={i} onClick={() => this.props.itemClick(algorithm)}><a href="#!">{algorithm.text}</a></li>
+        <li key={i} onClick={() => this.menuItemClick(algorithm)}><a href="#!">{algorithm.text}</a></li>
       );
     });
     let btnClassName = classNames({
@@ -136,7 +126,6 @@ class Algorithms extends Component {
   }
 
   itemClick(item) {
-    console.log(item);
     this.setState({
       currentAlgorithm: item
     })
@@ -163,7 +152,11 @@ class Algorithms extends Component {
       )
     })
 
-    let grid = GridListExampleSimple();
+    let grid;
+
+    if(this.state.currentAlgorithm) {
+      grid = GridListGenerator(this.state.currentAlgorithm.text)
+    }
 
     return (
       <div>

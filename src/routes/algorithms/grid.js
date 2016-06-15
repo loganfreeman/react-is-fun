@@ -3,9 +3,9 @@ import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import Subheader from 'material-ui/Subheader';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
-import TabsExampleSimple from './tab-example';
+import {LeftTab, RightTab} from './tabs';
 
-let tab = TabsExampleSimple();
+
 
 
 const styles = {
@@ -22,22 +22,29 @@ const styles = {
   },
 };
 
-const GridListExampleSimple = () => (
-  <div style={styles.root}>
-    <GridList
-      style={styles.gridList}
-    >
-      <GridTile
-        key={1}
-      >
-      {tab}
-      </GridTile>
-      <GridTile
-        key={2}
-      >
-      </GridTile>
-    </GridList>
-  </div>
-);
+function GridListGenerator(label) {
+  let left = LeftTab();
 
-export default GridListExampleSimple;
+  let right = RightTab(label);
+
+  return (
+    <div style={styles.root}>
+      <GridList
+        style={styles.gridList}
+      >
+        <GridTile
+          key={1}
+        >
+        {left}
+        </GridTile>
+        <GridTile
+          key={2}
+        >
+        {right}
+        </GridTile>
+      </GridList>
+    </div>
+  )
+}
+
+export default GridListGenerator;
