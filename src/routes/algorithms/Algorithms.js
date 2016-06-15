@@ -3,6 +3,11 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Algorithms.css';
 import classNames from 'classnames/bind';
 import GridListGenerator from './grid';
+import CardExampleWithAvatar from './parser';
+
+import {parse} from 'acorn';
+
+import * as acorn from 'acorn';
 
 class Dropdown extends Component {
   constructor(props) {
@@ -127,7 +132,24 @@ class Algorithms extends Component {
 
   itemClick(item) {
     this.setState({
-      currentAlgorithm: item
+      currentAlgorithm: item,
+      isParser: false
+    })
+  }
+
+  showParser() {
+    this.setState({
+      isParser: true,
+      currentAlgorithm: undefined
+    })
+  }
+
+  parse() {
+    let textarea = document.getElementsByName("textarea")[0];
+    let str = textarea.value;
+    this.setState({
+      parseResult: parse(str),
+      tokens: [...acorn.tokenizer(str)]
     })
   }
 
@@ -156,6 +178,8 @@ class Algorithms extends Component {
 
     if(this.state.currentAlgorithm) {
       grid = GridListGenerator(this.state.currentAlgorithm.text)
+    } else if(this.state.isParser) {
+      grid = CardExampleWithAvatar(this.parse.bind(this));
     }
 
     return (
@@ -164,6 +188,9 @@ class Algorithms extends Component {
           <div className="nav-wrapper">
             <ul className="left hide-on-med-and-down">
               {algorithms}
+            </ul>
+            <ul className="right hide-on-med-and-down">
+              <li><a onClick={this.showParser.bind(this)}>Parser</a></li>
             </ul>
           </div>
         </nav>
