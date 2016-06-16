@@ -196,16 +196,18 @@ class Algorithms extends Component {
           margin: 12,
         };
         grid.push(
-          <div>{
-            this.state.tokens.map((token, i) => {
-              if(token.type.label === ';') {
-                return <br />
-              }
-              return <RaisedButton label={token.value || token.type.label} style={style} key={i}/>
-            })
-          }</div>
+          <div key="tokens-ast-container">
+            <div key="tokens">{
+              this.state.tokens.map((token, i) => {
+                if(token.type.label === ';') {
+                  return <br />
+                }
+                return <RaisedButton label={token.value || token.type.label} style={style} key={i}/>
+              })
+            }</div>
+            <ReactCanvasSimple id="canvas-container" key="canvas" surfaceWidth={width} surfaceHeight={height} ast={this.state.ast}/>
+          </div>
         );
-        grid.push(<ReactCanvasSimple surfaceWidth={width} surfaceHeight={height} ast={this.state.ast}/>);
       }
     }
 
