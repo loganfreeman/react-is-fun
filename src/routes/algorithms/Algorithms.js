@@ -205,6 +205,7 @@ class Algorithms extends Component {
             })
           }</div>
         );
+        grid.push(<ReactCanvasSimple surfaceWidth={width} surfaceHeight={height} ast={this.state.ast}/>);
       }
     }
 

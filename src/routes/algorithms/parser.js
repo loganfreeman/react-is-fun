@@ -8,7 +8,7 @@ const CardExampleWithAvatar = (parseCallback) => (
   <Card key="parser">
     <CardHeader key="header"/>
     <CardMedia key="media">
-    <textarea name="textarea_code" rows="10" cols="50" defaultValue="Write something here"></textarea>
+    <textarea name="textarea_code" rows="10" cols="50" defaultValue="var x = 1 + 2; console.log(x)"></textarea>
     </CardMedia>
     <CardText key="text">
 

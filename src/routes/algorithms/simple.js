@@ -1,10 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 
+import go from 'gojs';
+
 export class ReactCanvasSimple extends Component {
 
   static propTypes = {
     surfaceWidth: PropTypes.number,
     surfaceHeight: PropTypes.number,
+    ast: PropTypes.object
   };
 
   render() {
@@ -12,9 +15,17 @@ export class ReactCanvasSimple extends Component {
     let surfaceHeight = this.props.surfaceHeight;
     let imageStyle = this.getImageStyle();
     let textStyle = this.getTextStyle();
+    let styles = {
+      width: "400px",
+      height: "150px",
+      backgroundColor: "#DAE4E4"
+    }
     return (
       <div>
         <h1>This is a simple canvas</h1>
+        <div id="myDiagramDiv"
+             style={styles}
+             ref={(c) => this.canvas = c}></div>
       </div>
     )
   }
