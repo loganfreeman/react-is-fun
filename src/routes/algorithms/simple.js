@@ -5,53 +5,75 @@ export class ReactCanvasSimple extends Component {
   static propTypes = {
     surfaceWidth: PropTypes.number,
     surfaceHeight: PropTypes.number,
-    ast: PropTypes.object
+    nodes: PropTypes.array
   };
 
   makeDiagram() {
-    var $ = go.GraphObject.make;
-    var myDiagram =
+    let $ = go.GraphObject.make;
+
+    let myDiagram =
       $(go.Diagram, "myDiagramDiv",
         {
           initialContentAlignment: go.Spot.Center, // center Diagram contents
-          "undoManager.isEnabled": true // enable Ctrl-Z to undo and Ctrl-Y to redo
+          "undoManager.isEnabled": true, // enable Ctrl-Z to undo and Ctrl-Y to redo
+          layout: $(go.TreeLayout, // specify a Diagram.layout that arranges trees
+                    { angle: 90, layerSpacing: 35 })
         });
 
-    // define a simple Node template
+    // the template we defined earlier
     myDiagram.nodeTemplate =
       $(go.Node, "Horizontal",
-        // the entire node will have a light-blue background
         { background: "#44CCFF" },
-        $(go.Picture,
-          // Pictures should normally have an explicit width and height.
-          // This picture has a red background, only visible when there is no source set
-          // or when the image is partially transparent.
-          { margin: 10, width: 50, height: 50, background: "red" },
-          // Picture.source is data bound to the "source" attribute of the model data
-          new go.Binding("source")),
-        $(go.TextBlock,
-          "Default Text",  // the initial value for TextBlock.text
-          // some room around the text, a larger font, and a white stroke:
+        $(go.TextBlock, "Default Text",
           { margin: 12, stroke: "white", font: "bold 16px sans-serif" },
-          // TextBlock.text is data bound to the "name" attribute of the model data
           new go.Binding("text", "name"))
       );
 
-    var model = $(go.Model);
-    model.nodeDataArray =
-    [ // note that each node data object holds whatever properties it needs;
-      // for this app we add the "name" and "source" properties
-      { name: "Don Meow", source: "cat1.jpeg" },
-      { name: "Copricat", source: "cat1.jpeg" },
-      { name: "Demeter",  source: "cat1.jpeg" },
-      { /* Empty node data */  }
-    ];
+    // define a Link template that routes orthogonally, with no arrowhead
+    myDiagram.linkTemplate =
+      $(go.Link,
+        { routing: go.Link.Orthogonal, corner: 5 },
+        $(go.Shape, { strokeWidth: 3, stroke: "#555" })); // the link shape
+
+    let model = $(go.TreeModel);
+    let key = 1, nodes = [];
+    let findNodeKey = (node) => {
+      for(let n of nodes) {
+        if(n === node) {
+          return n.key;
+        }
+      }
+    }
+    if(this.props.nodes) {
+      let nodeDataArray = [];
+      for(let nodePair of this.props.nodes) {
+        let node = nodePair[0], parent = nodePair[1], parentKey;
+        node.key = key;
+        nodes.push(node);
+        if(parent) {
+          parentKey = findNodeKey(parent);
+          nodeDataArray.push({
+            key: key,
+            name: node.type,
+            parent: parentKey
+          })
+        }else {
+          nodeDataArray.push({
+            key: key,
+            name: node.type
+          })
+        }
+        key++;
+      }
+      console.log(nodeDataArray);
+      model.nodeDataArray = nodeDataArray;
+    }
     myDiagram.model = model;
+
   }
 
   componentDidMount() {
     this.makeDiagram();
-
   }
 
   render() {

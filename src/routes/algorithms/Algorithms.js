@@ -151,11 +151,12 @@ class Algorithms extends Component {
     let code = document.getElementsByName("textarea_code")[0];
     let str = code.value;
     let ast = parse(str);
+    let nodes = [];
     walk(ast, function(node) {
-      // console.log(node.parentNode);
+      nodes.push([node, node.parentNode]);
     });
     this.setState({
-      ast: ast,
+      nodes: nodes,
       tokens: [...acorn.tokenizer(str)]
     })
   }
@@ -205,7 +206,7 @@ class Algorithms extends Component {
                 return <RaisedButton label={token.value || token.type.label} style={style} key={i}/>
               })
             }</div>
-            <ReactCanvasSimple id="canvas-container" key="canvas" surfaceWidth={width} surfaceHeight={height} ast={this.state.ast}/>
+            <ReactCanvasSimple id="canvas-container" key="canvas" surfaceWidth={width} surfaceHeight={height} nodes={this.state.nodes}/>
           </div>
         );
       }
