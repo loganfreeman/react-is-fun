@@ -1,7 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 
-import go from 'gojs';
-
 export class ReactCanvasSimple extends Component {
 
   static propTypes = {
@@ -9,6 +7,12 @@ export class ReactCanvasSimple extends Component {
     surfaceHeight: PropTypes.number,
     ast: PropTypes.object
   };
+
+  componentDidMount() {
+    var $ = go.GraphObject.make;
+    var myDiagram = $(go.Diagram, "myDiagramDiv");
+
+  }
 
   render() {
     let surfaceWidth = this.props.surfaceWidth;
