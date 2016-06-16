@@ -2,6 +2,13 @@ import React, { Component, PropTypes } from 'react';
 
 export class ReactCanvasSimple extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    }
+  }
+
   static propTypes = {
     surfaceWidth: PropTypes.number,
     surfaceHeight: PropTypes.number,
@@ -65,15 +72,55 @@ export class ReactCanvasSimple extends Component {
         }
         key++;
       }
-      console.log(nodeDataArray);
+      // console.log(nodeDataArray);
       model.nodeDataArray = nodeDataArray;
     }
     myDiagram.model = model;
+  }
 
+  updateModel(myDiagram) {
+    let model = $(go.TreeModel);
+    let key = 1, nodes = [];
+    let findNodeKey = (node) => {
+      for(let n of nodes) {
+        if(n === node) {
+          return n.key;
+        }
+      }
+    }
+    if(this.props.nodes) {
+      let nodeDataArray = [];
+      for(let nodePair of this.props.nodes) {
+        let node = nodePair[0], parent = nodePair[1], parentKey;
+        node.key = key;
+        nodes.push(node);
+        if(parent) {
+          parentKey = findNodeKey(parent);
+          nodeDataArray.push({
+            key: key,
+            name: node.type,
+            parent: parentKey
+          })
+        }else {
+          nodeDataArray.push({
+            key: key,
+            name: node.type
+          })
+        }
+        key++;
+      }
+      // console.log(nodeDataArray);
+      model.nodeDataArray = nodeDataArray;
+    }
+    myDiagram.model = model;
   }
 
   componentDidMount() {
     this.makeDiagram();
+  }
+
+  componentWillUpdate() {
+
   }
 
   render() {
@@ -88,7 +135,7 @@ export class ReactCanvasSimple extends Component {
     }
     return (
       <div>
-        <h1>This is a simple canvas</h1>
+        <h1>Node tree displayed using gojs</h1>
         <div id="myDiagramDiv"
              style={styles}
              ref={(c) => this.canvas = c}></div>
