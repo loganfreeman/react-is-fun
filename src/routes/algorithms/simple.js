@@ -21,7 +21,7 @@ export class ReactCanvasSimple extends Component {
     let myDiagram =
       $(go.Diagram, "myDiagramDiv",
         {
-          initialContentAlignment: go.Spot.Center, // center Diagram contents
+          initialContentAlignment: go.Spot.Top, // center Diagram contents
           "undoManager.isEnabled": true, // enable Ctrl-Z to undo and Ctrl-Y to redo
           layout: $(go.TreeLayout, // specify a Diagram.layout that arranges trees
                     { angle: 90, layerSpacing: 35 })
@@ -42,43 +42,15 @@ export class ReactCanvasSimple extends Component {
         { routing: go.Link.Orthogonal, corner: 5 },
         $(go.Shape, { strokeWidth: 3, stroke: "#555" })); // the link shape
 
-    let model = $(go.TreeModel);
-    let key = 1, nodes = [];
-    let findNodeKey = (node) => {
-      for(let n of nodes) {
-        if(n === node) {
-          return n.key;
-        }
-      }
-    }
-    if(this.props.nodes) {
-      let nodeDataArray = [];
-      for(let nodePair of this.props.nodes) {
-        let node = nodePair[0], parent = nodePair[1], parentKey;
-        node.key = key;
-        nodes.push(node);
-        if(parent) {
-          parentKey = findNodeKey(parent);
-          nodeDataArray.push({
-            key: key,
-            name: node.type,
-            parent: parentKey
-          })
-        }else {
-          nodeDataArray.push({
-            key: key,
-            name: node.type
-          })
-        }
-        key++;
-      }
-      // console.log(nodeDataArray);
-      model.nodeDataArray = nodeDataArray;
-    }
-    myDiagram.model = model;
+    this.updateModel(myDiagram);
+
+    this.setState({
+      diagram: myDiagram
+    })
   }
 
   updateModel(myDiagram) {
+    let $ = go.GraphObject.make;
     let model = $(go.TreeModel);
     let key = 1, nodes = [];
     let findNodeKey = (node) => {
@@ -119,8 +91,12 @@ export class ReactCanvasSimple extends Component {
     this.makeDiagram();
   }
 
-  componentWillUpdate() {
-
+  componentWillReceiveProps() {
+    if(this.state.diagram) {
+      this.updateModel(this.state.diagram);
+    }else{
+      this.makeDiagram();
+    }
   }
 
   render() {
@@ -129,7 +105,7 @@ export class ReactCanvasSimple extends Component {
     let imageStyle = this.getImageStyle();
     let textStyle = this.getTextStyle();
     let styles = {
-      width: "600px",
+      width: "1200px",
       height: "800px",
       backgroundColor: "#DAE4E4"
     }
